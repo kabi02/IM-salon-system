@@ -21,7 +21,6 @@ public class loginFrame extends javax.swing.JFrame {
 
         btnRegis = new javax.swing.JButton();
         btnEmp = new javax.swing.JButton();
-        btnTrans = new javax.swing.JButton();
         lblTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -55,23 +54,8 @@ public class loginFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 31;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 162, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 162, 60, 0);
         getContentPane().add(btnEmp, gridBagConstraints);
-
-        btnTrans.setText("Transactions");
-        btnTrans.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTrans.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTransActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 58;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 162, 70, 0);
-        getContentPane().add(btnTrans, gridBagConstraints);
 
         lblTitle.setFont(new java.awt.Font("Open Sans", 1, 24)); // NOI18N
         lblTitle.setText("X Salon Management System");
@@ -80,7 +64,7 @@ public class loginFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(37, 67, 0, 61);
+        gridBagConstraints.insets = new java.awt.Insets(15, 68, 0, 62);
         getContentPane().add(lblTitle, gridBagConstraints);
 
         pack();
@@ -96,10 +80,6 @@ public class loginFrame extends javax.swing.JFrame {
         this.dispose();
         new empLogin().setVisible(true);
     }//GEN-LAST:event_btnEmpActionPerformed
-
-    private void btnTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTransActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,7 +119,6 @@ public class loginFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmp;
     private javax.swing.JButton btnRegis;
-    private javax.swing.JButton btnTrans;
     private javax.swing.JLabel lblTitle;
     // End of variables declaration//GEN-END:variables
 }
