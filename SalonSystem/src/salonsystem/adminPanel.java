@@ -12,22 +12,37 @@ import javax.swing.JLabel;
 
 public class adminPanel extends javax.swing.JFrame {
     
-    JPanel pnlInsert = new JPanel(new GridLayout(3,2));
-    JTextField txtInsName = new JTextField(15);
-    JTextField txtInsAddress = new JTextField(15);
-    JTextField txtInsGender = new JTextField(5);
-    JLabel lblName = new JLabel("Name");
-    JLabel lblAddress = new JLabel("Address");
-    JLabel lblGender = new JLabel("Gender");
+    JPanel pnlInsertCust = new JPanel(new GridLayout(3,2));
+    JTextField txtInsNameCust = new JTextField(15);
+    JTextField txtInsAddressCust = new JTextField(15);
+    JTextField txtInsGenderCust = new JTextField(5);
+    JLabel lblNameCust = new JLabel("Name");
+    JLabel lblAddressCust = new JLabel("Address");
+    JLabel lblGenderCust = new JLabel("Gender");
+    
+    JPanel pnlInsertBeaut = new JPanel(new GridLayout(3,2));
+    JTextField txtInsNameBeaut = new JTextField(15);
+    JTextField txtInsTierBeaut = new JTextField(15);
+    JTextField txtInsTFBeaut = new JTextField(5);
+    JLabel lblNameBeaut = new JLabel("Name");
+    JLabel lblTierBeaut = new JLabel("Tier");
+    JLabel lblTFBeaut = new JLabel("Talent Fee");
     
     public adminPanel() {
         initComponents();
-        pnlInsert.add(lblName);
-        pnlInsert.add(txtInsName);
-        pnlInsert.add(lblAddress);
-        pnlInsert.add(txtInsAddress);
-        pnlInsert.add(lblGender);
-        pnlInsert.add(txtInsGender);
+        pnlInsertCust.add(lblNameCust);
+        pnlInsertCust.add(txtInsNameCust);
+        pnlInsertCust.add(lblAddressCust);
+        pnlInsertCust.add(txtInsAddressCust);
+        pnlInsertCust.add(lblGenderCust);
+        pnlInsertCust.add(txtInsGenderCust);
+        
+        pnlInsertBeaut.add(lblNameBeaut);
+        pnlInsertBeaut.add(txtInsNameBeaut);
+        pnlInsertBeaut.add(lblTierBeaut);
+        pnlInsertBeaut.add(txtInsTierBeaut);
+        pnlInsertBeaut.add(lblTFBeaut);
+        pnlInsertBeaut.add(txtInsTFBeaut);
     }
 
     /**
@@ -52,6 +67,9 @@ public class adminPanel extends javax.swing.JFrame {
         pnlBeautInfo = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        btnBeautAdd = new javax.swing.JButton();
+        btnBeautEdit = new javax.swing.JButton();
+        btnBeautRemove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
@@ -70,10 +88,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         tblCustInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Name", "Address", "Gender"
@@ -89,12 +104,17 @@ public class adminPanel extends javax.swing.JFrame {
         });
         tblCustInfo.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblCustInfo);
+        if (tblCustInfo.getColumnModel().getColumnCount() > 0) {
+            tblCustInfo.getColumnModel().getColumn(2).setMinWidth(60);
+            tblCustInfo.getColumnModel().getColumn(2).setMaxWidth(60);
+        }
 
         javax.swing.GroupLayout pnlMembersLayout = new javax.swing.GroupLayout(pnlMembers);
         pnlMembers.setLayout(pnlMembersLayout);
         pnlMembersLayout.setHorizontalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMembersLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRemove)
@@ -111,17 +131,14 @@ public class adminPanel extends javax.swing.JFrame {
                     .addComponent(btnRemove)
                     .addComponent(btnEdit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
         );
 
         tabMain.addTab("Members", pnlMembers);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Invoice", "Service(s)", "Mode of Payment", "Membership Status", "Subtotal"
@@ -152,17 +169,14 @@ public class adminPanel extends javax.swing.JFrame {
         );
         pnlTransactionsLayout.setVerticalGroup(
             pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
         );
 
         tabMain.addTab("Transactions", pnlTransactions);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Name", "Tier", "Talent Fee"
@@ -178,15 +192,40 @@ public class adminPanel extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTable2);
 
+        btnBeautAdd.setText("Add");
+        btnBeautAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBeautAddActionPerformed(evt);
+            }
+        });
+
+        btnBeautEdit.setText("Edit");
+
+        btnBeautRemove.setText("Remove");
+
         javax.swing.GroupLayout pnlBeautInfoLayout = new javax.swing.GroupLayout(pnlBeautInfo);
         pnlBeautInfo.setLayout(pnlBeautInfoLayout);
         pnlBeautInfoLayout.setHorizontalGroup(
             pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnBeautAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBeautRemove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBeautEdit)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlBeautInfoLayout.setVerticalGroup(
             pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBeautInfoLayout.createSequentialGroup()
+                .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBeautAdd)
+                    .addComponent(btnBeautEdit)
+                    .addComponent(btnBeautRemove))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         tabMain.addTab("Beautician", pnlBeautInfo);
@@ -206,8 +245,12 @@ public class adminPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JOptionPane.showMessageDialog(null, pnlInsert, "Enter Data",JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, pnlInsertCust, "Enter Data",JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnBeautAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautAddActionPerformed
+        JOptionPane.showMessageDialog(null, pnlInsertBeaut, "Enter Data",JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_btnBeautAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,6 +289,9 @@ public class adminPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnBeautAdd;
+    private javax.swing.JButton btnBeautEdit;
+    private javax.swing.JButton btnBeautRemove;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnRemove;
     private javax.swing.JScrollPane jScrollPane1;
