@@ -5,52 +5,17 @@
 package salonsystem;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import java.sql.*;
 
 public class adminPanel extends javax.swing.JFrame {
     
-    SQLConnector dbConn = new SQLConnector();
-    
-    JPanel pnlInsertCust = new JPanel(new GridLayout(3,2));
-    JTextField txtInsNameCust = new JTextField(15);
-    JTextField txtInsAddressCust = new JTextField(15);
-    JTextField txtInsGenderCust = new JTextField(5);
-    JLabel lblNameCust = new JLabel("Name");
-    JLabel lblAddressCust = new JLabel("Address");
-    JLabel lblGenderCust = new JLabel("Gender");
-    
-    JPanel pnlInsertBeaut = new JPanel(new GridLayout(3,2));
-    JTextField txtInsNameBeaut = new JTextField(15);
-    JTextField txtInsTierBeaut = new JTextField(15);
-    JTextField txtInsTFBeaut = new JTextField(5);
-    JLabel lblNameBeaut = new JLabel("Name");
-    JLabel lblTierBeaut = new JLabel("Tier");
-    JLabel lblTFBeaut = new JLabel("Talent Fee");
-    
+    SQLConnector dbConn = new SQLConnector();   
     DefaultTableModel model = new DefaultTableModel();
     
     public adminPanel() {
         initComponents();
-        pnlInsertCust.add(lblNameCust);
-        pnlInsertCust.add(txtInsNameCust);
-        pnlInsertCust.add(lblAddressCust);
-        pnlInsertCust.add(txtInsAddressCust);
-        pnlInsertCust.add(lblGenderCust);
-        pnlInsertCust.add(txtInsGenderCust);
         
-        pnlInsertBeaut.add(lblNameBeaut);
-        pnlInsertBeaut.add(txtInsNameBeaut);
-        pnlInsertBeaut.add(lblTierBeaut);
-        pnlInsertBeaut.add(txtInsTierBeaut);
-        pnlInsertBeaut.add(lblTFBeaut);
-        pnlInsertBeaut.add(txtInsTFBeaut);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,6 +32,7 @@ public class adminPanel extends javax.swing.JFrame {
         btnEdit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCustInfo = new javax.swing.JTable();
+        btnRefreshCust = new javax.swing.JButton();
         pnlTransactions = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -92,12 +58,12 @@ public class adminPanel extends javax.swing.JFrame {
 
         btnEdit.setText("Edit");
 
-        tblCustInfo.setModel(new DefaultTableModel(
+        tblCustInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Name", "Address", "Membership ID", "Gender"
+                "ID", "Name", "Address", "Gender", "Membership ID"
             }
         ) {
             Class[] types = new Class [] {
@@ -134,11 +100,18 @@ public class adminPanel extends javax.swing.JFrame {
         tblCustInfo.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblCustInfo);
         if (tblCustInfo.getColumnModel().getColumnCount() > 0) {
-            tblCustInfo.getColumnModel().getColumn(0).setMinWidth(65);
-            tblCustInfo.getColumnModel().getColumn(0).setMaxWidth(65);
-            tblCustInfo.getColumnModel().getColumn(4).setMinWidth(60);
-            tblCustInfo.getColumnModel().getColumn(4).setMaxWidth(60);
+            tblCustInfo.getColumnModel().getColumn(0).setMinWidth(55);
+            tblCustInfo.getColumnModel().getColumn(0).setMaxWidth(55);
+            tblCustInfo.getColumnModel().getColumn(3).setMinWidth(65);
+            tblCustInfo.getColumnModel().getColumn(3).setMaxWidth(65);
         }
+
+        btnRefreshCust.setText("Refresh");
+        btnRefreshCust.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshCustActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlMembersLayout = new javax.swing.GroupLayout(pnlMembers);
         pnlMembers.setLayout(pnlMembersLayout);
@@ -151,6 +124,8 @@ public class adminPanel extends javax.swing.JFrame {
                 .addComponent(btnRemove)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEdit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRefreshCust)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
         );
@@ -160,7 +135,8 @@ public class adminPanel extends javax.swing.JFrame {
                 .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnRemove)
-                    .addComponent(btnEdit))
+                    .addComponent(btnEdit)
+                    .addComponent(btnRefreshCust))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
         );
@@ -274,14 +250,47 @@ public class adminPanel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    String addName, addGender, addAddress;
+    
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        JOptionPane.showMessageDialog(null, pnlInsertCust, "Enter Data",JOptionPane.PLAIN_MESSAGE);
+        addCust addRecord = new addCust();
+        addRecord.setVisible(true);
+        addRecord.pack();
+        addRecord.setLocationRelativeTo(null);
+        addRecord.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnBeautAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautAddActionPerformed
-        JOptionPane.showMessageDialog(null, pnlInsertBeaut, "Enter Data",JOptionPane.PLAIN_MESSAGE);
+
     }//GEN-LAST:event_btnBeautAddActionPerformed
+
+    private void btnRefreshCustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshCustActionPerformed
+        Connection conn = dbConn.dbConn();
+        PreparedStatement pst = null;
+        String ID="";
+        String Name="";
+        String Address="";
+        String MemID="";
+        String Gender="";
+        model = (DefaultTableModel) tblCustInfo.getModel();
+        model.setRowCount(0);
+        try{
+            pst = conn.prepareStatement("SELECT * FROM customerinfo");
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                ID = rs.getString("custid");
+                Name = rs.getString("custname");
+                Address = rs.getString("custaddress");
+                MemID = rs.getString("memid");
+                Gender = rs.getString("custgender");
+                model.addRow(new Object[]{ID,Name,Address,Gender,MemID});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnRefreshCustActionPerformed
 
     /**
      * @param args the command line arguments
@@ -324,6 +333,7 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JButton btnBeautEdit;
     private javax.swing.JButton btnBeautRemove;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnRefreshCust;
     private javax.swing.JButton btnRemove;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

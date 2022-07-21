@@ -57,6 +57,8 @@
                       <Component id="btnRemove" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnEdit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRefreshCust" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" alignment="0" pref="732" max="32767" attributes="0"/>
@@ -69,6 +71,7 @@
                           <Component id="btnAdd" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnRemove" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnEdit" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnRefreshCust" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" pref="497" max="32767" attributes="0"/>
@@ -107,32 +110,38 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="tblCustInfo">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="Connection conn = dbConn.dbConn();&#xa;PreparedStatement pst = null;&#xa;String ID=&quot;&quot;;&#xa;String Name=&quot;&quot;;&#xa;String Address=&quot;&quot;;&#xa;String MemID=&quot;&quot;;&#xa;String Gender=&quot;&quot;;&#xa;model = (DefaultTableModel) tblCustInfo.getModel();&#xa;try{&#xa;    pst = conn.prepareStatement(&quot;SELECT * FROM customerinfo&quot;);&#xa;    ResultSet rs = pst.executeQuery();&#xa;&#xa;    while(rs.next()){&#xa;        ID = rs.getString(&quot;custid&quot;);&#xa;        Name = rs.getString(&quot;custname&quot;);&#xa;        Address = rs.getString(&quot;custaddress&quot;);&#xa;        MemID = rs.getString(&quot;memid&quot;);&#xa;        Gender = rs.getString(&quot;custgender&quot;);&#xa;        model.addRow(new Object[]{ID,Name,Address,MemID,Gender});&#xa;    }&#xa;}catch(Exception e){&#xa;    e.printStackTrace();&#xa;}">
-                      <Connection code="new DefaultTableModel(&#xa;    new Object [][] {&#xa;&#xa;    },&#xa;    new String [] {&#xa;        &quot;ID&quot;, &quot;Name&quot;, &quot;Address&quot;, &quot;Membership ID&quot;, &quot;Gender&quot;&#xa;    }&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;}" type="code"/>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="Connection conn = dbConn.dbConn();&#xa;PreparedStatement pst = null;&#xa;String ID=&quot;&quot;;&#xa;String Name=&quot;&quot;;&#xa;String Address=&quot;&quot;;&#xa;String MemID=&quot;&quot;;&#xa;String Gender=&quot;&quot;;&#xa;model = (DefaultTableModel) tblCustInfo.getModel();&#xa;try{&#xa;    pst = conn.prepareStatement(&quot;SELECT * FROM customerinfo&quot;);&#xa;    ResultSet rs = pst.executeQuery();&#xa;&#xa;    while(rs.next()){&#xa;        ID = rs.getString(&quot;custid&quot;);&#xa;        Name = rs.getString(&quot;custname&quot;);&#xa;        Address = rs.getString(&quot;custaddress&quot;);&#xa;        MemID = rs.getString(&quot;memid&quot;);&#xa;        Gender = rs.getString(&quot;custgender&quot;);&#xa;        model.addRow(new Object[]{ID,Name,Address,MemID,Gender});&#xa;    }&#xa;}catch(Exception e){&#xa;    e.printStackTrace();&#xa;}">
+                      <Table columnCount="5" rowCount="0">
+                        <Column editable="true" title="ID" type="java.lang.Integer"/>
+                        <Column editable="true" title="Name" type="java.lang.String"/>
+                        <Column editable="true" title="Address" type="java.lang.String"/>
+                        <Column editable="true" title="Gender" type="java.lang.String"/>
+                        <Column editable="true" title="Membership ID" type="java.lang.String"/>
+                      </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="55" minWidth="55" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="65" minWidth="65" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="60" minWidth="60" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -146,6 +155,14 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="btnRefreshCust">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Refresh"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRefreshCustActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnlTransactions">
