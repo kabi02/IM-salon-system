@@ -95,11 +95,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Remove"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEdit">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -110,7 +116,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="tblCustInfo">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="Connection conn = dbConn.dbConn();&#xa;PreparedStatement pst = null;&#xa;String ID=&quot;&quot;;&#xa;String Name=&quot;&quot;;&#xa;String Address=&quot;&quot;;&#xa;String MemID=&quot;&quot;;&#xa;String Gender=&quot;&quot;;&#xa;model = (DefaultTableModel) tblCustInfo.getModel();&#xa;try{&#xa;    pst = conn.prepareStatement(&quot;SELECT * FROM customerinfo&quot;);&#xa;    ResultSet rs = pst.executeQuery();&#xa;&#xa;    while(rs.next()){&#xa;        ID = rs.getString(&quot;custid&quot;);&#xa;        Name = rs.getString(&quot;custname&quot;);&#xa;        Address = rs.getString(&quot;custaddress&quot;);&#xa;        MemID = rs.getString(&quot;memid&quot;);&#xa;        Gender = rs.getString(&quot;custgender&quot;);&#xa;        model.addRow(new Object[]{ID,Name,Address,MemID,Gender});&#xa;    }&#xa;}catch(Exception e){&#xa;    e.printStackTrace();&#xa;}">
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor" postCode="String ID=&quot;&quot;;&#xa;String Name=&quot;&quot;;&#xa;String Address=&quot;&quot;;&#xa;String MemID=&quot;&quot;;&#xa;String Gender=&quot;&quot;;&#xa;model = (DefaultTableModel) tblCustInfo.getModel();&#xa;try{&#xa;    pst = conn.prepareStatement(&quot;SELECT * FROM customerinfo&quot;);&#xa;    ResultSet rs = pst.executeQuery();&#xa;&#xa;    while(rs.next()){&#xa;        ID = rs.getString(&quot;custid&quot;);&#xa;        Name = rs.getString(&quot;custname&quot;);&#xa;        Address = rs.getString(&quot;custaddress&quot;);&#xa;        Gender = rs.getString(&quot;custgender&quot;);&#xa;        MemID = rs.getString(&quot;memid&quot;);&#xa;        model.addRow(new Object[]{ID,Name,Address,Gender,MemID});&#xa;    }&#xa;}catch(Exception e){&#xa;    e.printStackTrace();&#xa;}">
                       <Table columnCount="5" rowCount="0">
                         <Column editable="true" title="ID" type="java.lang.Integer"/>
                         <Column editable="true" title="Name" type="java.lang.String"/>
