@@ -4,13 +4,17 @@
  */
 package salonsystem;
 
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import java.sql.*;
 
 public class adminPanel extends javax.swing.JFrame {
+    
+    SQLConnector dbConn = new SQLConnector();
     
     JPanel pnlInsertCust = new JPanel(new GridLayout(3,2));
     JTextField txtInsNameCust = new JTextField(15);
@@ -27,6 +31,8 @@ public class adminPanel extends javax.swing.JFrame {
     JLabel lblNameBeaut = new JLabel("Name");
     JLabel lblTierBeaut = new JLabel("Tier");
     JLabel lblTFBeaut = new JLabel("Talent Fee");
+    
+    DefaultTableModel model = new DefaultTableModel();
     
     public adminPanel() {
         initComponents();
@@ -86,27 +92,52 @@ public class adminPanel extends javax.swing.JFrame {
 
         btnEdit.setText("Edit");
 
-        tblCustInfo.setModel(new javax.swing.table.DefaultTableModel(
+        tblCustInfo.setModel(new DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Name", "Address", "Gender"
+                "ID", "Name", "Address", "Membership ID", "Gender"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        Connection conn = dbConn.dbConn();
+        PreparedStatement pst = null;
+        String ID="";
+        String Name="";
+        String Address="";
+        String MemID="";
+        String Gender="";
+        model = (DefaultTableModel) tblCustInfo.getModel();
+        try{
+            pst = conn.prepareStatement("SELECT * FROM customerinfo");
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                ID = rs.getString("custid");
+                Name = rs.getString("custname");
+                Address = rs.getString("custaddress");
+                MemID = rs.getString("memid");
+                Gender = rs.getString("custgender");
+                model.addRow(new Object[]{ID,Name,Address,MemID,Gender});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         tblCustInfo.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblCustInfo);
         if (tblCustInfo.getColumnModel().getColumnCount() > 0) {
-            tblCustInfo.getColumnModel().getColumn(2).setMinWidth(60);
-            tblCustInfo.getColumnModel().getColumn(2).setMaxWidth(60);
+            tblCustInfo.getColumnModel().getColumn(0).setMinWidth(65);
+            tblCustInfo.getColumnModel().getColumn(0).setMaxWidth(65);
+            tblCustInfo.getColumnModel().getColumn(4).setMinWidth(60);
+            tblCustInfo.getColumnModel().getColumn(4).setMaxWidth(60);
         }
 
         javax.swing.GroupLayout pnlMembersLayout = new javax.swing.GroupLayout(pnlMembers);
