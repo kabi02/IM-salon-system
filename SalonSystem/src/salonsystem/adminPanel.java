@@ -502,11 +502,7 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        editCust editRecord = new editCust();
-        editRecord.setVisible(true);
-        editRecord.pack();
-        editRecord.setLocationRelativeTo(null);
-        editRecord.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnAddSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSideActionPerformed
