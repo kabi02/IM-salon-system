@@ -174,9 +174,9 @@ public class adminPanel extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlMembersLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMembersLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCustNameSide)
                             .addComponent(lblGenderSide))
@@ -190,13 +190,15 @@ public class adminPanel extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnGenderOthersSide))))
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addComponent(lblAddressSide)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblAddressSide)
+                            .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlMembersLayout.createSequentialGroup()
                                 .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnModify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtAddressSide))))
                 .addGap(0, 81, Short.MAX_VALUE))
         );
@@ -325,6 +327,11 @@ public class adminPanel extends javax.swing.JFrame {
         });
 
         btnBeautModify.setText("Modify");
+        btnBeautModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBeautModifyActionPerformed(evt);
+            }
+        });
 
         btnBeautRemove.setText("Remove");
         btnBeautRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -502,7 +509,23 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        
+        if(tblCustInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            int row = tblCustInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            String modifyQuery="update customerinfo set custname=?, custgender=?, custaddress=? where custid="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setString(1, txtCustNameSide.getText());
+                pst.setString(2, btnGroupGenderSide.getSelection().getActionCommand());
+                pst.setString(3, txtAddressSide.getText());
+                
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        }
     }//GEN-LAST:event_btnModifyActionPerformed
 
     private void btnAddSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSideActionPerformed
@@ -566,6 +589,25 @@ public class adminPanel extends javax.swing.JFrame {
     private void tblBeautInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBeautInfoMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tblBeautInfoMouseClicked
+
+    private void btnBeautModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautModifyActionPerformed
+        if(tblBeautInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblBeautInfo.getModel();
+            int row = tblBeautInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            String modifyQuery="update beauticianinfo set beautname=?, beauttier=? where beautid="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setString(1, txtBeautName.getText());
+                pst.setInt(2, Integer.parseInt(btnGroupBeautTier.getSelection().getActionCommand()));
+                
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        }
+    }//GEN-LAST:event_btnBeautModifyActionPerformed
 
     /**
      * @param args the command line arguments
