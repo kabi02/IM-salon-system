@@ -28,6 +28,7 @@ public class adminPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         btnGroupGenderSide = new javax.swing.ButtonGroup();
+        btnGroupBeautTier = new javax.swing.ButtonGroup();
         tabMain = new javax.swing.JTabbedPane();
         pnlMembers = new javax.swing.JPanel();
         btnRemove = new javax.swing.JButton();
@@ -49,10 +50,17 @@ public class adminPanel extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         pnlBeautInfo = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblBeautInfo = new javax.swing.JTable();
         btnBeautAdd = new javax.swing.JButton();
-        btnBeautEdit = new javax.swing.JButton();
+        btnBeautModify = new javax.swing.JButton();
         btnBeautRemove = new javax.swing.JButton();
+        lblBeautName = new javax.swing.JLabel();
+        lblBeautTier = new javax.swing.JLabel();
+        txtBeautName = new javax.swing.JTextField();
+        btnTierBeginner = new javax.swing.JRadioButton();
+        btnTierNovice = new javax.swing.JRadioButton();
+        btnTierExpert = new javax.swing.JRadioButton();
+        btnBeautRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
@@ -109,6 +117,11 @@ public class adminPanel extends javax.swing.JFrame {
             e.printStackTrace();
         }
         tblCustInfo.getTableHeader().setReorderingAllowed(false);
+        tblCustInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustInfoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCustInfo);
         if (tblCustInfo.getColumnModel().getColumnCount() > 0) {
             tblCustInfo.getColumnModel().getColumn(0).setMinWidth(55);
@@ -179,11 +192,12 @@ public class adminPanel extends javax.swing.JFrame {
                     .addGroup(pnlMembersLayout.createSequentialGroup()
                         .addComponent(lblAddressSide)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAddressSide))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMembersLayout.createSequentialGroup()
-                        .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlMembersLayout.createSequentialGroup()
+                                .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnModify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txtAddressSide))))
                 .addGap(0, 81, Short.MAX_VALUE))
         );
         pnlMembersLayout.setVerticalGroup(
@@ -215,7 +229,7 @@ public class adminPanel extends javax.swing.JFrame {
                             .addComponent(btnModify))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMembersLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                         .addContainerGap())))
         );
 
@@ -254,28 +268,54 @@ public class adminPanel extends javax.swing.JFrame {
         );
         pnlTransactionsLayout.setVerticalGroup(
             pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
         );
 
         tabMain.addTab("Transactions", pnlTransactions);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblBeautInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Name", "Tier", "Talent Fee"
+                "ID", "Name", "Tier"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable2);
+        String BeautID="";
+        String BeautName="";
+        String BeautTier="";
+        model = (DefaultTableModel) tblBeautInfo.getModel();
+        try{
+            pst = conn.prepareStatement("SELECT * FROM beauticianinfo");
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                BeautID = rs.getString("beautid");
+                BeautName = rs.getString("beautname");
+                BeautTier = rs.getString("beauttier");
+                model.addRow(new Object[]{BeautID,BeautName,BeautTier});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        tblBeautInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBeautInfoMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblBeautInfo);
+        if (tblBeautInfo.getColumnModel().getColumnCount() > 0) {
+            tblBeautInfo.getColumnModel().getColumn(0).setMinWidth(65);
+            tblBeautInfo.getColumnModel().getColumn(0).setMaxWidth(65);
+        }
 
         btnBeautAdd.setText("Add");
         btnBeautAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -284,9 +324,37 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
 
-        btnBeautEdit.setText("Edit");
+        btnBeautModify.setText("Modify");
 
         btnBeautRemove.setText("Remove");
+        btnBeautRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBeautRemoveActionPerformed(evt);
+            }
+        });
+
+        lblBeautName.setText("Name");
+
+        lblBeautTier.setText("Tier");
+
+        btnGroupBeautTier.add(btnTierBeginner);
+        btnTierBeginner.setText("Beginner (1)");
+        btnTierBeginner.setActionCommand("1");
+
+        btnGroupBeautTier.add(btnTierNovice);
+        btnTierNovice.setText("Novice (2)");
+        btnTierNovice.setActionCommand("2");
+
+        btnGroupBeautTier.add(btnTierExpert);
+        btnTierExpert.setText("Expert (3)");
+        btnTierExpert.setActionCommand("3");
+
+        btnBeautRefresh.setText("Refresh");
+        btnBeautRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBeautRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlBeautInfoLayout = new javax.swing.GroupLayout(pnlBeautInfo);
         pnlBeautInfo.setLayout(pnlBeautInfoLayout);
@@ -294,25 +362,63 @@ public class adminPanel extends javax.swing.JFrame {
             pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBeautInfoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnBeautAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBeautRemove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBeautEdit)
-                .addContainerGap(762, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBeautRefresh)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlBeautInfoLayout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(18, 34, Short.MAX_VALUE)
+                .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addComponent(lblBeautName)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBeautName, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addComponent(lblBeautTier)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                                .addComponent(btnTierBeginner)
+                                .addGap(12, 12, 12)
+                                .addComponent(btnTierNovice)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnTierExpert))
+                            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(btnBeautAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btnBeautModify, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(31, 31, 31))
         );
         pnlBeautInfoLayout.setVerticalGroup(
             pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBeautInfoLayout.createSequentialGroup()
                 .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBeautAdd)
-                    .addComponent(btnBeautEdit)
-                    .addComponent(btnBeautRemove))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBeautRemove)
+                    .addComponent(btnBeautRefresh))
+                .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBeautName)
+                            .addComponent(txtBeautName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBeautTier)
+                            .addComponent(btnTierBeginner)
+                            .addComponent(btnTierNovice)
+                            .addComponent(btnTierExpert))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBeautAdd)
+                            .addComponent(btnBeautModify))))
+                .addContainerGap())
         );
 
         tabMain.addTab("Beautician", pnlBeautInfo);
@@ -336,7 +442,17 @@ public class adminPanel extends javax.swing.JFrame {
     String addName, addGender, addAddress;
     
     private void btnBeautAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautAddActionPerformed
-
+         try{            
+            String ins = "INSERT INTO beauticianinfo (beautid, beautname, beauttier) VALUES(null,?,?)";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1, txtBeautName.getText());
+            pst.setInt(2, Integer.parseInt(btnGroupBeautTier.getSelection().getActionCommand()));
+            
+            pst.executeUpdate();
+            System.out.println("Inserted successfully");
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnBeautAddActionPerformed
 
     //refresh table
@@ -408,6 +524,53 @@ public class adminPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddSideActionPerformed
 
+    private void tblCustInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustInfoMouseClicked
+        
+    }//GEN-LAST:event_tblCustInfoMouseClicked
+
+    private void btnBeautRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautRefreshActionPerformed
+        String ID="";
+        String Name="";
+        String Tier="";
+        model = (DefaultTableModel) tblBeautInfo.getModel();
+        model.setRowCount(0);
+        try{
+            pst = conn.prepareStatement("SELECT * FROM beauticianinfo");
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                ID = rs.getString("beautid");
+                Name = rs.getString("beautname");
+                Tier = rs.getString("beauttier");
+                model.addRow(new Object[]{ID,Name,Tier});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnBeautRefreshActionPerformed
+
+    private void btnBeautRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautRemoveActionPerformed
+        if(tblBeautInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblBeautInfo.getModel();
+            int row = tblBeautInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            
+            String delRow = "DELETE FROM beauticianinfo WHERE beautid="+id;
+            try{
+                pst = conn.prepareStatement(delRow);
+                pst.execute();
+                model.removeRow(tblBeautInfo.getSelectedRow());
+                System.out.println("Row deleted successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnBeautRemoveActionPerformed
+
+    private void tblBeautInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBeautInfoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblBeautInfoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -446,29 +609,37 @@ public class adminPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSide;
     private javax.swing.JButton btnBeautAdd;
-    private javax.swing.JButton btnBeautEdit;
+    private javax.swing.JButton btnBeautModify;
+    private javax.swing.JButton btnBeautRefresh;
     private javax.swing.JButton btnBeautRemove;
     private javax.swing.JRadioButton btnGenderFemaleSide;
     private javax.swing.JRadioButton btnGenderMaleSide;
     private javax.swing.JRadioButton btnGenderOthersSide;
+    private javax.swing.ButtonGroup btnGroupBeautTier;
     private javax.swing.ButtonGroup btnGroupGenderSide;
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnRefreshCust;
     private javax.swing.JButton btnRemove;
+    private javax.swing.JRadioButton btnTierBeginner;
+    private javax.swing.JRadioButton btnTierExpert;
+    private javax.swing.JRadioButton btnTierNovice;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblAddressSide;
+    private javax.swing.JLabel lblBeautName;
+    private javax.swing.JLabel lblBeautTier;
     private javax.swing.JLabel lblCustNameSide;
     private javax.swing.JLabel lblGenderSide;
     private javax.swing.JPanel pnlBeautInfo;
     private javax.swing.JPanel pnlMembers;
     private javax.swing.JPanel pnlTransactions;
     private javax.swing.JTabbedPane tabMain;
+    private javax.swing.JTable tblBeautInfo;
     private javax.swing.JTable tblCustInfo;
     private javax.swing.JTextField txtAddressSide;
+    private javax.swing.JTextField txtBeautName;
     private javax.swing.JTextField txtCustNameSide;
     // End of variables declaration//GEN-END:variables
 }
