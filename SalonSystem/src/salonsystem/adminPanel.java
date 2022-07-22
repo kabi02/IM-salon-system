@@ -6,11 +6,15 @@ package salonsystem;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class adminPanel extends javax.swing.JFrame {
     
     SQLConnector dbConn = new SQLConnector();   
     DefaultTableModel model = new DefaultTableModel();
+    DefaultTableModel model2 = new DefaultTableModel();
     
     public adminPanel() {
         initComponents();
@@ -29,7 +33,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         btnGroupGenderSide = new javax.swing.ButtonGroup();
         btnGroupBeautTier = new javax.swing.ButtonGroup();
-        pnlMain = new javax.swing.JTabbedPane();
+        tabMain = new javax.swing.JTabbedPane();
         pnlMembers = new javax.swing.JPanel();
         btnRemove = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
@@ -47,7 +51,35 @@ public class adminPanel extends javax.swing.JFrame {
         btnAddSide = new javax.swing.JButton();
         pnlTransactions = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSubInfo = new javax.swing.JTable();
+        txtInvoiceTrans = new javax.swing.JTextField();
+        lblCustNameSide1 = new javax.swing.JLabel();
+        lblCustNameSide2 = new javax.swing.JLabel();
+        txtCustTrans = new javax.swing.JTextField();
+        lblCustNameSide3 = new javax.swing.JLabel();
+        lblCustNameSide4 = new javax.swing.JLabel();
+        txtDateTrans = new javax.swing.JTextField();
+        txtTimeTrans = new javax.swing.JTextField();
+        lblCustNameSide5 = new javax.swing.JLabel();
+        txtBranchTrans = new javax.swing.JTextField();
+        txtPayTrans = new javax.swing.JTextField();
+        lblCustNameSide6 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblTransInfo = new javax.swing.JTable();
+        lblCustNameSide8 = new javax.swing.JLabel();
+        lblCustNameSide9 = new javax.swing.JLabel();
+        txtBeautIdSub = new javax.swing.JTextField();
+        txtServCodeSub = new javax.swing.JTextField();
+        btnAddSub = new javax.swing.JButton();
+        btnUpdateSub = new javax.swing.JButton();
+        btnRemoveSubtotal = new javax.swing.JButton();
+        btnRefreshSubtotal = new javax.swing.JButton();
+        btnRemoveTrans = new javax.swing.JButton();
+        btnRefreshTransactions = new javax.swing.JButton();
+        btnAddTrans = new javax.swing.JButton();
+        btnUpdateTrans = new javax.swing.JButton();
+        lblCustNameSide10 = new javax.swing.JLabel();
+        txtSatisSub = new javax.swing.JTextField();
         pnlBeautInfo = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblBeautInfo = new javax.swing.JTable();
@@ -61,15 +93,6 @@ public class adminPanel extends javax.swing.JFrame {
         btnTierNovice = new javax.swing.JRadioButton();
         btnTierExpert = new javax.swing.JRadioButton();
         btnBeautRefresh = new javax.swing.JButton();
-        pnlServiceInfo = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tblServiceInfo = new javax.swing.JTable();
-        btnServiceRemove = new javax.swing.JButton();
-        btnServiceRefresh = new javax.swing.JButton();
-        lblServiceName = new javax.swing.JLabel();
-        txtServiceName = new javax.swing.JTextField();
-        lblServiceBaseFee = new javax.swing.JLabel();
-        txtServiceBaseFee = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
@@ -176,41 +199,40 @@ public class adminPanel extends javax.swing.JFrame {
         pnlMembersLayout.setHorizontalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMembersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnRemove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRefreshCust)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlMembersLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnRemove)
+                        .addGap(28, 28, 28)
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCustNameSide)
+                            .addComponent(lblGenderSide))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnRefreshCust))
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCustNameSide, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlMembersLayout.createSequentialGroup()
+                                .addComponent(btnGenderMaleSide)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnGenderFemaleSide)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnGenderOthersSide))))
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblAddressSide)
+                            .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlMembersLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnlMembersLayout.createSequentialGroup()
-                                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblCustNameSide)
-                                            .addComponent(lblGenderSide))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtCustNameSide, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(pnlMembersLayout.createSequentialGroup()
-                                                .addComponent(btnGenderMaleSide)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnGenderFemaleSide)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnGenderOthersSide))))
-                                    .addGroup(pnlMembersLayout.createSequentialGroup()
-                                        .addComponent(lblAddressSide)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(pnlMembersLayout.createSequentialGroup()
-                                .addGap(70, 70, 70)
                                 .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(81, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtAddressSide))))
+                .addGap(0, 76, Short.MAX_VALUE))
         );
         pnlMembersLayout.setVerticalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,34 +254,34 @@ public class adminPanel extends javax.swing.JFrame {
                             .addComponent(btnGenderOthersSide)
                             .addComponent(lblGenderSide))
                         .addGap(18, 18, 18)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAddressSide))
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAddressSide)
+                            .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddSide)
                             .addComponent(btnModify))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMembersLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
                         .addContainerGap())))
         );
 
-        pnlMain.addTab("Members", pnlMembers);
+        tabMain.addTab("Members", pnlMembers);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSubInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Invoice", "Service(s)", "Mode of Payment", "Membership Status", "Subtotal"
+                "Beautician", "Beautician Fee", "Service", "Service Fee", "Membership ID", "Subtotal", "Satisfaction"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -270,20 +292,303 @@ public class adminPanel extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblSubInfo);
+
+        txtInvoiceTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtInvoiceTransActionPerformed(evt);
+            }
+        });
+
+        lblCustNameSide1.setText("Invoice Number:");
+
+        lblCustNameSide2.setText("Customer ID:");
+
+        txtCustTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustTransActionPerformed(evt);
+            }
+        });
+
+        lblCustNameSide3.setText("Time");
+
+        lblCustNameSide4.setText("Date");
+
+        txtDateTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDateTransActionPerformed(evt);
+            }
+        });
+
+        txtTimeTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimeTransActionPerformed(evt);
+            }
+        });
+
+        lblCustNameSide5.setText("Branch:");
+
+        txtBranchTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBranchTransActionPerformed(evt);
+            }
+        });
+
+        txtPayTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPayTransActionPerformed(evt);
+            }
+        });
+
+        lblCustNameSide6.setText("Payment Method");
+
+        tblTransInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Invoice", "Customer ID", "Date", "Time", "Branch", "Payment Mode", "Member ID", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblTransInfo);
+
+        lblCustNameSide8.setText("Beautician ID");
+
+        lblCustNameSide9.setText("Service Code");
+
+        txtBeautIdSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBeautIdSubActionPerformed(evt);
+            }
+        });
+
+        txtServCodeSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtServCodeSubActionPerformed(evt);
+            }
+        });
+
+        btnAddSub.setText("Add");
+        btnAddSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSubActionPerformed(evt);
+            }
+        });
+
+        btnUpdateSub.setText("Update");
+        btnUpdateSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateSubActionPerformed(evt);
+            }
+        });
+
+        btnRemoveSubtotal.setText("Remove");
+        btnRemoveSubtotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveSubtotalActionPerformed(evt);
+            }
+        });
+
+        btnRefreshSubtotal.setText("Refresh");
+        btnRefreshSubtotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshSubtotalActionPerformed(evt);
+            }
+        });
+
+        btnRemoveTrans.setText("Remove");
+        btnRemoveTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveTransActionPerformed(evt);
+            }
+        });
+
+        btnRefreshTransactions.setText("Refresh");
+        btnRefreshTransactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshTransactionsActionPerformed(evt);
+            }
+        });
+
+        btnAddTrans.setText("Add");
+        btnAddTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTransActionPerformed(evt);
+            }
+        });
+
+        btnUpdateTrans.setText("Update");
+        btnUpdateTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateTransActionPerformed(evt);
+            }
+        });
+
+        lblCustNameSide10.setText("Satisfaction");
+
+        txtSatisSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSatisSubActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlTransactionsLayout = new javax.swing.GroupLayout(pnlTransactions);
         pnlTransactions.setLayout(pnlTransactionsLayout);
         pnlTransactionsLayout.setHorizontalGroup(
             pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                        .addComponent(btnRemoveSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRefreshSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2))
+                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                .addComponent(btnRemoveTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnRefreshTransactions, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(txtSatisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                                .addComponent(lblCustNameSide1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtInvoiceTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                                .addComponent(lblCustNameSide2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtCustTrans))
+                                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                                .addComponent(lblCustNameSide3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtTimeTrans))
+                                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                                .addComponent(lblCustNameSide4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtDateTrans))
+                                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                                .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblCustNameSide5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(lblCustNameSide6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtBranchTrans)
+                                                    .addComponent(txtPayTrans))))
+                                        .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                            .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lblCustNameSide8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lblCustNameSide9, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lblCustNameSide10, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtBeautIdSub, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtServCodeSub, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                        .addComponent(btnUpdateSub, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnAddSub, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                                        .addComponent(btnUpdateTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnAddTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         pnlTransactionsLayout.setVerticalGroup(
             pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+            .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtInvoiceTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCustNameSide1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCustTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCustNameSide2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCustNameSide4)
+                            .addComponent(txtDateTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCustNameSide3)
+                            .addComponent(txtTimeTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCustNameSide5)
+                            .addComponent(txtBranchTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCustNameSide6)
+                            .addComponent(txtPayTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAddTrans)
+                            .addComponent(btnUpdateTrans)))
+                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRemoveTrans)
+                            .addComponent(btnRefreshTransactions))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBeautIdSub, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCustNameSide8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCustNameSide9)
+                            .addComponent(txtServCodeSub, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSatisSub, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCustNameSide10))
+                        .addGap(10, 10, 10)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAddSub)
+                            .addComponent(btnUpdateSub))
+                        .addGap(146, 146, 146))
+                    .addGroup(pnlTransactionsLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRemoveSubtotal)
+                            .addComponent(btnRefreshSubtotal))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        pnlMain.addTab("Transactions", pnlTransactions);
+        tabMain.addTab("Transactions", pnlTransactions);
 
         tblBeautInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -385,7 +690,7 @@ public class adminPanel extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlBeautInfoLayout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 34, Short.MAX_VALUE)
+                .addGap(18, 29, Short.MAX_VALUE)
                 .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(pnlBeautInfoLayout.createSequentialGroup()
                         .addComponent(lblBeautName)
@@ -438,101 +743,19 @@ public class adminPanel extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlMain.addTab("Beautician", pnlBeautInfo);
-
-        tblServiceInfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Code", "Name", "Base Fee", "Hair Length"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(tblServiceInfo);
-        if (tblServiceInfo.getColumnModel().getColumnCount() > 0) {
-            tblServiceInfo.getColumnModel().getColumn(0).setMinWidth(80);
-            tblServiceInfo.getColumnModel().getColumn(0).setMaxWidth(80);
-            tblServiceInfo.getColumnModel().getColumn(2).setMinWidth(80);
-            tblServiceInfo.getColumnModel().getColumn(2).setMaxWidth(80);
-        }
-
-        btnServiceRemove.setText("Remove");
-
-        btnServiceRefresh.setText("Refresh");
-
-        lblServiceName.setText("Service Name");
-
-        lblServiceBaseFee.setText("Base Fee");
-
-        javax.swing.GroupLayout pnlServiceInfoLayout = new javax.swing.GroupLayout(pnlServiceInfo);
-        pnlServiceInfo.setLayout(pnlServiceInfoLayout);
-        pnlServiceInfoLayout.setHorizontalGroup(
-            pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlServiceInfoLayout.createSequentialGroup()
-                .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblServiceName)
-                            .addComponent(lblServiceBaseFee))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtServiceName, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                            .addComponent(txtServiceBaseFee)))
-                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnServiceRemove)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnServiceRefresh)))
-                .addGap(0, 49, Short.MAX_VALUE))
-        );
-        pnlServiceInfoLayout.setVerticalGroup(
-            pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlServiceInfoLayout.createSequentialGroup()
-                .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnServiceRemove)
-                    .addComponent(btnServiceRefresh))
-                .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblServiceName)
-                            .addComponent(txtServiceName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblServiceBaseFee)
-                            .addComponent(txtServiceBaseFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(95, Short.MAX_VALUE))
-        );
-
-        pnlMain.addTab("Services", pnlServiceInfo);
+        tabMain.addTab("Beautician", pnlBeautInfo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabMain, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMain)
+            .addComponent(tabMain)
         );
 
         pack();
@@ -556,7 +779,6 @@ public class adminPanel extends javax.swing.JFrame {
 
     //refresh table
     private void btnRefreshCustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshCustActionPerformed
-
         String ID="";
         String Name="";
         String Address="";
@@ -701,6 +923,291 @@ public class adminPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBeautModifyActionPerformed
 
+    private void txtInvoiceTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInvoiceTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtInvoiceTransActionPerformed
+
+    private void txtCustTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustTransActionPerformed
+
+    private void txtDateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDateTransActionPerformed
+
+    private void txtTimeTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimeTransActionPerformed
+
+    private void txtBranchTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBranchTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBranchTransActionPerformed
+
+    private void txtPayTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPayTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPayTransActionPerformed
+
+    private void txtBeautIdSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBeautIdSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBeautIdSubActionPerformed
+
+    private void txtServCodeSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtServCodeSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtServCodeSubActionPerformed
+
+    private void btnAddSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubActionPerformed
+        try{            
+            model = (DefaultTableModel) tblTransInfo.getModel();
+            int row = tblTransInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            Object cust_id = model.getValueAt(row, 1);
+            String ins = "INSERT INTO transactioninfo " +
+                         "InvoiceNum, BeautID, SerCode, MemID, BeautTF, SerBFee, " +
+                         "VALUES(" +
+                         "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"), " +
+                         "(SELECT BeautID FROM beauticianinfo WHERE BeautID=?), " +
+                         "(SELECT SerCode FROM serviceinfo WHERE SerCode=?), " +
+                         "(SELECT MemID FROM customerinfo as custid=" + cust_id +
+                         " (SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=?))," +
+                         "(SELECT SerBFee FROM serviceinfo WHERE SerCode=?) " +
+                         ");" +
+                         "INSERT INTO satisfaction " +
+                         "InvoiceNuM, SerCode, Satisfaction" +
+                         "VALUES( " +
+                         "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"), " +
+                         "(SELECT BeautID FROM beauticianinfo WHERE BeautID=?), " +
+                         "?";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1, txtBeautIdSub.getText());
+            pst.setString(2, txtServCodeSub.getText());
+            pst.setString(3, txtBeautIdSub.getText());
+            pst.setString(4, txtServCodeSub.getText());
+            pst.setString(5, txtBeautIdSub.getText());
+            pst.setString(6, txtSatisSub.getText());
+            
+            pst.executeUpdate();
+            System.out.println("Inserted Transaction successfully");
+        } catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnAddSubActionPerformed
+
+    private void btnUpdateSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSubActionPerformed
+        if(tblTransInfo.getSelectedRow()!=-1){  
+            model = (DefaultTableModel) tblSubInfo.getModel();
+            int row = tblSubInfo.getSelectedRow();
+            Object idServ = model.getValueAt(row, 2);
+            model2 = (DefaultTableModel) tblTransInfo.getModel();
+            int rowTrans = tblTransInfo.getSelectedRow();
+            Object idTrans = model2.getValueAt(rowTrans, 2);
+            
+            if (txtSatisSub.getText() == "") {
+            String modifyQuery= "UPDATE subtotalcomputation " +
+                                "SET BeautID=?, SerCode=? " +
+                                "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +") "  +
+                                "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ";";
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setObject(1, txtBeautIdSub.getText());
+                pst.setObject(2, txtServCodeSub.getText());
+
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            } else {
+            String modifyQuery= "UPDATE subtotalcomputation " +
+                                "SET BeautID=?, SerCode=? " +
+                                "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +") "  +
+                                "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ";" +
+                                "UPDATE satisfaction " +
+                                "SET satisfaction=?" + 
+                                "WHERE InvoiceNum =" + idTrans + "AND SerCode=" + idServ + ";";
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setObject(1, txtBeautIdSub.getText());
+                pst.setObject(2, txtServCodeSub.getText());
+                pst.setString(3, txtSatisSub.getText());
+
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateSubActionPerformed
+    private void btnRemoveSubtotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSubtotalActionPerformed
+        if(tblTransInfo.getSelectedRow()!=-1 && tblSubInfo.getSelectedRow()!=-1) {
+            try{
+            model = (DefaultTableModel) tblTransInfo.getModel();
+            int row = tblTransInfo.getSelectedRow();
+            Object idTrans = model.getValueAt(row, 0);
+            model2 = (DefaultTableModel) tblSubInfo.getModel();
+            int rowSub = tblSubInfo.getSelectedRow();
+            Object idSub = model2.getValueAt(rowSub, 2);
+            String modifyQuery="DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
+                pst = conn.prepareStatement(modifyQuery);
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnRemoveSubtotalActionPerformed
+
+    private void btnRefreshSubtotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshSubtotalActionPerformed
+        String Beautician="";
+        String BeauticianFee="";
+        String Service="";
+        String ServiceFee="";
+        String Membership="";
+        String Subtotal="";
+        String Satisfaction="";
+        model = (DefaultTableModel) tblCustInfo.getModel();
+        model.setRowCount(0);
+        model2 = (DefaultTableModel) tblTransInfo.getModel();
+        int rowTrans = tblTransInfo.getSelectedRow();
+        Object idTrans = model2.getValueAt(rowTrans, 2);
+        String refreshQuery = "SELECT * " +
+                "FROM subtotalcomputation AS SC, satisfaction AS sat " +
+                "WHERE sc.InvoiceNum = " + idTrans + " AND sat.InvoiceNum = "+ idTrans + 
+                "HAVING sc.ServCode = sat.ServCode";
+        try{
+            pst = conn.prepareStatement(refreshQuery);
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                Beautician=rs.getString("beautid");
+                BeauticianFee=rs.getString("beautTF");
+                Service=rs.getString("SerCode");
+                ServiceFee=rs.getString("SerBFee");
+                Membership=rs.getString("memID");
+                Subtotal=rs.getString("subtotal");
+                Satisfaction=rs.getString("satisfaction");
+                model.addRow(new Object[]{Beautician,BeauticianFee,Service,ServiceFee,Membership, Subtotal, Satisfaction});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRefreshSubtotalActionPerformed
+
+    private void btnRemoveTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTransActionPerformed
+        if(tblTransInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblTransInfo.getModel();
+            int row = tblTransInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            
+            String delRow = "DELETE FROM satisfaction WHERE invoicenum IN (SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id + ");" +
+                            "DELETE FROM subtotalcalculation " +
+                            "WHERE invoicenum IN " +
+                            "(SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id +");" +
+                            "DELETE FROM transactioninfo WHERE invoicenum="+ id +";";
+            try{
+                pst = conn.prepareStatement(delRow);
+                pst.execute();
+                model.removeRow(tblCustInfo.getSelectedRow());
+                System.out.println("Transaction Row deleted successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRemoveTransActionPerformed
+
+    private void btnRefreshTransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTransactionsActionPerformed
+        try{
+            String Invoice="";
+            String Customer="";
+            String Date="";
+            String Time="";
+            String Branch="";
+            String Payment="";
+            String Member="";
+            String Total="";
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            model.setRowCount(0);
+            String ins = "SELECT ti.*," +
+                         "(SELECT SUM(sc.subtotal) FROM subtotalcomputation AS sc WHERE ti.invoicenum = sc.invoicenum) AS total, " +
+                         "(SELECT MemID FROM customer FROM customerinfo AS ci WHERE ti.custid = ci.custid) AS member " +
+                         "FROM transactioninfo AS ti";
+            pst = conn.prepareStatement(ins);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                Invoice = rs.getString("invoicenum");
+                Customer="custid";
+                Date="date";
+                Time="time";
+                Branch="branch";
+                Payment="paymentmethod";
+                Member="member";
+                Total="total";
+                model.addRow(new Object[]{Invoice, Customer, Date, Time, Branch, Payment, Member, Total});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRefreshTransactionsActionPerformed
+
+    private void btnAddTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTransActionPerformed
+        try{            
+            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+            String dateInputText = txtDateTrans.getText();
+            LocalDate dateInput = LocalDate.parse(dateInputText, DTF);
+            String timeInputText = txtTimeTrans.getText();
+            LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
+            
+            String ins = "INSERT INTO transactioninfo " +
+                            "InvoiceNum, CustID, Date, Time, Branch, PaymentMethod " +
+                            "VALUES (?, ?, ?, ?, ?, ?)";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1,txtInvoiceTrans.getText());
+            pst.setString(2,txtCustTrans.getText());
+            pst.setObject(3,dateInput);
+            pst.setObject(4,timeInput);
+            pst.setString(5,txtBranchTrans.getText());
+            pst.setString(6,txtPayTrans.getText());
+            
+            pst.executeUpdate();
+            System.out.println("Inserted Transaction successfully");
+        } catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnAddTransActionPerformed
+
+    private void btnUpdateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTransActionPerformed
+        if(tblTransInfo.getSelectedRow()!=-1){
+            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+            String dateInputText = txtDateTrans.getText();
+            LocalDate dateInput = LocalDate.parse(dateInputText, DTF);
+            String timeInputText = txtTimeTrans.getText();
+            LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
+            
+            model = (DefaultTableModel) tblTransInfo.getModel();
+            int row = tblTransInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            String modifyQuery= "UPDATE transactioninfo " +
+                                "SET Date=?, Time=?, Branch=?, PaymentMethod=? " +
+                                "WHERE InvoiceNum="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setObject(1, dateInput);
+                pst.setObject(2, timeInput);
+                pst.setString(3, txtBranchTrans.getText());
+                pst.setString(4, txtPayTrans.getText());
+                
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        }
+    }//GEN-LAST:event_btnUpdateTransActionPerformed
+
+    private void txtSatisSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSatisSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSatisSubActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -738,6 +1245,8 @@ public class adminPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddSide;
+    private javax.swing.JButton btnAddSub;
+    private javax.swing.JButton btnAddTrans;
     private javax.swing.JButton btnBeautAdd;
     private javax.swing.JButton btnBeautModify;
     private javax.swing.JButton btnBeautRefresh;
@@ -749,36 +1258,53 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroupGenderSide;
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnRefreshCust;
+    private javax.swing.JButton btnRefreshSubtotal;
+    private javax.swing.JButton btnRefreshTransactions;
     private javax.swing.JButton btnRemove;
-    private javax.swing.JButton btnServiceRefresh;
-    private javax.swing.JButton btnServiceRemove;
+    private javax.swing.JButton btnRemoveSubtotal;
+    private javax.swing.JButton btnRemoveTrans;
     private javax.swing.JRadioButton btnTierBeginner;
     private javax.swing.JRadioButton btnTierExpert;
     private javax.swing.JRadioButton btnTierNovice;
+    private javax.swing.JButton btnUpdateSub;
+    private javax.swing.JButton btnUpdateTrans;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAddressSide;
     private javax.swing.JLabel lblBeautName;
     private javax.swing.JLabel lblBeautTier;
     private javax.swing.JLabel lblCustNameSide;
+    private javax.swing.JLabel lblCustNameSide1;
+    private javax.swing.JLabel lblCustNameSide10;
+    private javax.swing.JLabel lblCustNameSide2;
+    private javax.swing.JLabel lblCustNameSide3;
+    private javax.swing.JLabel lblCustNameSide4;
+    private javax.swing.JLabel lblCustNameSide5;
+    private javax.swing.JLabel lblCustNameSide6;
+    private javax.swing.JLabel lblCustNameSide8;
+    private javax.swing.JLabel lblCustNameSide9;
     private javax.swing.JLabel lblGenderSide;
-    private javax.swing.JLabel lblServiceBaseFee;
-    private javax.swing.JLabel lblServiceName;
     private javax.swing.JPanel pnlBeautInfo;
-    private javax.swing.JTabbedPane pnlMain;
     private javax.swing.JPanel pnlMembers;
-    private javax.swing.JPanel pnlServiceInfo;
     private javax.swing.JPanel pnlTransactions;
+    private javax.swing.JTabbedPane tabMain;
     private javax.swing.JTable tblBeautInfo;
     private javax.swing.JTable tblCustInfo;
-    private javax.swing.JTable tblServiceInfo;
+    private javax.swing.JTable tblSubInfo;
+    private javax.swing.JTable tblTransInfo;
     private javax.swing.JTextField txtAddressSide;
+    private javax.swing.JTextField txtBeautIdSub;
     private javax.swing.JTextField txtBeautName;
+    private javax.swing.JTextField txtBranchTrans;
     private javax.swing.JTextField txtCustNameSide;
-    private javax.swing.JTextField txtServiceBaseFee;
-    private javax.swing.JTextField txtServiceName;
+    private javax.swing.JTextField txtCustTrans;
+    private javax.swing.JTextField txtDateTrans;
+    private javax.swing.JTextField txtInvoiceTrans;
+    private javax.swing.JTextField txtPayTrans;
+    private javax.swing.JTextField txtSatisSub;
+    private javax.swing.JTextField txtServCodeSub;
+    private javax.swing.JTextField txtTimeTrans;
     // End of variables declaration//GEN-END:variables
 }
