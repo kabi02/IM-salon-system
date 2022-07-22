@@ -10,7 +10,7 @@ public class SQLConnector {
     public Connection dbConn() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/salondb","root","admin123");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/salondb","root","admin");
             System.out.println("Connected to database");
             return conn;
         }catch(Exception e){

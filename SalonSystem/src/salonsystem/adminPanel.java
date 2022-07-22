@@ -29,7 +29,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         btnGroupGenderSide = new javax.swing.ButtonGroup();
         btnGroupBeautTier = new javax.swing.ButtonGroup();
-        tabMain = new javax.swing.JTabbedPane();
+        pnlMain = new javax.swing.JTabbedPane();
         pnlMembers = new javax.swing.JPanel();
         btnRemove = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
@@ -61,6 +61,15 @@ public class adminPanel extends javax.swing.JFrame {
         btnTierNovice = new javax.swing.JRadioButton();
         btnTierExpert = new javax.swing.JRadioButton();
         btnBeautRefresh = new javax.swing.JButton();
+        pnlServiceInfo = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblServiceInfo = new javax.swing.JTable();
+        btnServiceRemove = new javax.swing.JButton();
+        btnServiceRefresh = new javax.swing.JButton();
+        lblServiceName = new javax.swing.JLabel();
+        txtServiceName = new javax.swing.JTextField();
+        lblServiceBaseFee = new javax.swing.JLabel();
+        txtServiceBaseFee = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
@@ -167,40 +176,41 @@ public class adminPanel extends javax.swing.JFrame {
         pnlMembersLayout.setHorizontalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMembersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnRemove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnRefreshCust)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlMembersLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCustNameSide)
-                            .addComponent(lblGenderSide))
+                        .addContainerGap()
+                        .addComponent(btnRemove)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCustNameSide, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlMembersLayout.createSequentialGroup()
-                                .addComponent(btnGenderMaleSide)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenderFemaleSide)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenderOthersSide))))
+                        .addComponent(btnRefreshCust))
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblAddressSide)
-                            .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pnlMembersLayout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlMembersLayout.createSequentialGroup()
+                                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblCustNameSide)
+                                            .addComponent(lblGenderSide))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCustNameSide, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(pnlMembersLayout.createSequentialGroup()
+                                                .addComponent(btnGenderMaleSide)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnGenderFemaleSide)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnGenderOthersSide))))
+                                    .addGroup(pnlMembersLayout.createSequentialGroup()
+                                        .addComponent(lblAddressSide)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(pnlMembersLayout.createSequentialGroup()
+                                .addGap(70, 70, 70)
                                 .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtAddressSide))))
-                .addGap(0, 81, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         pnlMembersLayout.setVerticalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,11 +232,11 @@ public class adminPanel extends javax.swing.JFrame {
                             .addComponent(btnGenderOthersSide)
                             .addComponent(lblGenderSide))
                         .addGap(18, 18, 18)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblAddressSide)
-                            .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAddressSide))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddSide)
                             .addComponent(btnModify))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -235,7 +245,7 @@ public class adminPanel extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        tabMain.addTab("Members", pnlMembers);
+        pnlMain.addTab("Members", pnlMembers);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -273,7 +283,7 @@ public class adminPanel extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
         );
 
-        tabMain.addTab("Transactions", pnlTransactions);
+        pnlMain.addTab("Transactions", pnlTransactions);
 
         tblBeautInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -428,19 +438,101 @@ public class adminPanel extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tabMain.addTab("Beautician", pnlBeautInfo);
+        pnlMain.addTab("Beautician", pnlBeautInfo);
+
+        tblServiceInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Code", "Name", "Base Fee", "Hair Length"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblServiceInfo);
+        if (tblServiceInfo.getColumnModel().getColumnCount() > 0) {
+            tblServiceInfo.getColumnModel().getColumn(0).setMinWidth(80);
+            tblServiceInfo.getColumnModel().getColumn(0).setMaxWidth(80);
+            tblServiceInfo.getColumnModel().getColumn(2).setMinWidth(80);
+            tblServiceInfo.getColumnModel().getColumn(2).setMaxWidth(80);
+        }
+
+        btnServiceRemove.setText("Remove");
+
+        btnServiceRefresh.setText("Refresh");
+
+        lblServiceName.setText("Service Name");
+
+        lblServiceBaseFee.setText("Base Fee");
+
+        javax.swing.GroupLayout pnlServiceInfoLayout = new javax.swing.GroupLayout(pnlServiceInfo);
+        pnlServiceInfo.setLayout(pnlServiceInfoLayout);
+        pnlServiceInfoLayout.setHorizontalGroup(
+            pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlServiceInfoLayout.createSequentialGroup()
+                .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblServiceName)
+                            .addComponent(lblServiceBaseFee))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtServiceName, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(txtServiceBaseFee)))
+                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnServiceRemove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnServiceRefresh)))
+                .addGap(0, 49, Short.MAX_VALUE))
+        );
+        pnlServiceInfoLayout.setVerticalGroup(
+            pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlServiceInfoLayout.createSequentialGroup()
+                .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnServiceRemove)
+                    .addComponent(btnServiceRefresh))
+                .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlServiceInfoLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblServiceName)
+                            .addComponent(txtServiceName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlServiceInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblServiceBaseFee)
+                            .addComponent(txtServiceBaseFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(95, Short.MAX_VALUE))
+        );
+
+        pnlMain.addTab("Services", pnlServiceInfo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabMain, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabMain)
+            .addComponent(pnlMain)
         );
 
         pack();
@@ -658,26 +750,35 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JButton btnModify;
     private javax.swing.JButton btnRefreshCust;
     private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnServiceRefresh;
+    private javax.swing.JButton btnServiceRemove;
     private javax.swing.JRadioButton btnTierBeginner;
     private javax.swing.JRadioButton btnTierExpert;
     private javax.swing.JRadioButton btnTierNovice;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAddressSide;
     private javax.swing.JLabel lblBeautName;
     private javax.swing.JLabel lblBeautTier;
     private javax.swing.JLabel lblCustNameSide;
     private javax.swing.JLabel lblGenderSide;
+    private javax.swing.JLabel lblServiceBaseFee;
+    private javax.swing.JLabel lblServiceName;
     private javax.swing.JPanel pnlBeautInfo;
+    private javax.swing.JTabbedPane pnlMain;
     private javax.swing.JPanel pnlMembers;
+    private javax.swing.JPanel pnlServiceInfo;
     private javax.swing.JPanel pnlTransactions;
-    private javax.swing.JTabbedPane tabMain;
     private javax.swing.JTable tblBeautInfo;
     private javax.swing.JTable tblCustInfo;
+    private javax.swing.JTable tblServiceInfo;
     private javax.swing.JTextField txtAddressSide;
     private javax.swing.JTextField txtBeautName;
     private javax.swing.JTextField txtCustNameSide;
+    private javax.swing.JTextField txtServiceBaseFee;
+    private javax.swing.JTextField txtServiceName;
     // End of variables declaration//GEN-END:variables
 }

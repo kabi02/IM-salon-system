@@ -4,14 +4,11 @@
  */
 package salonsystem;
 
-/**
- *
- * @author Kirby
- */
+import javax.swing.JOptionPane;
+
 public class empLogin extends javax.swing.JFrame {
 
-    String strUsername;
-    char strPassword[];
+    String strUsername, strPassword;
     public empLogin() {
         initComponents();
     }
@@ -107,7 +104,16 @@ public class empLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         strUsername = txtUsername.getText();
-        strPassword = txtPassword.getPassword();
+        strPassword = txtPassword.getText();
+        
+        if(strUsername.equals("admin") && strPassword.equals("admin123")){
+            JOptionPane.showMessageDialog(null, "Login Successful");
+            this.dispose();
+            new adminPanel().setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Invalid Username/Password!");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
