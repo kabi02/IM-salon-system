@@ -970,22 +970,26 @@ public class adminPanel extends javax.swing.JFrame {
                          "(SELECT MemID FROM customerinfo as custid=" + cust_id +
                          " (SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=?))," +
                          "(SELECT SerBFee FROM serviceinfo WHERE SerCode=?) " +
-                         ");" +
-                         "INSERT INTO satisfaction " +
+                         ");";
+            String ins2 = "INSERT INTO satisfaction " +
                          "InvoiceNuM, SerCode, Satisfaction" +
                          "VALUES( " +
                          "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"), " +
                          "(SELECT BeautID FROM beauticianinfo WHERE BeautID=?), " +
                          "?";
-            pst = conn.prepareStatement(ins);
-            pst.setString(1, txtBeautIdSub.getText());
-            pst.setString(2, txtServCodeSub.getText());
-            pst.setString(3, txtBeautIdSub.getText());
-            pst.setString(4, txtServCodeSub.getText());
-            pst.setString(5, txtBeautIdSub.getText());
-            pst.setString(6, txtSatisSub.getText());
+            PreparedStatement pst1, pst2;
+            pst1 = conn.prepareStatement(ins);
+            pst1.setString(1, txtBeautIdSub.getText());
+            pst1.setString(2, txtServCodeSub.getText());
+            pst1.setString(3, txtBeautIdSub.getText());
+            pst1.setString(4, txtServCodeSub.getText());
+            pst2 = conn.prepareStatement(ins2);
+            pst2.setString(1, txtBeautIdSub.getText());
+            pst2.setString(2, txtSatisSub.getText());
             
-            pst.executeUpdate();
+            pst1.executeUpdate();
+            pst2.executeUpdate();
+            conn.commit();
             System.out.println("Inserted Transaction successfully");
         } catch(SQLException ex){
             ex.printStackTrace();
@@ -1012,7 +1016,7 @@ public class adminPanel extends javax.swing.JFrame {
                 pst.setObject(2, txtServCodeSub.getText());
 
                 pst.executeUpdate();
-                System.out.println("Modified successfully");
+                System.out.println("Modified successfully (w/o satisfaction)");
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -1031,7 +1035,7 @@ public class adminPanel extends javax.swing.JFrame {
                 pst.setString(3, txtSatisSub.getText());
 
                 pst.executeUpdate();
-                System.out.println("Modified successfully");
+                System.out.println("Modified successfully (w/ satisfaction)");
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -1047,9 +1051,12 @@ public class adminPanel extends javax.swing.JFrame {
             model2 = (DefaultTableModel) tblSubInfo.getModel();
             int rowSub = tblSubInfo.getSelectedRow();
             Object idSub = model2.getValueAt(rowSub, 2);
-            String modifyQuery="DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
-                pst = conn.prepareStatement(modifyQuery);
-                pst.executeUpdate();
+            String modifyQuery= "DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
+            String modifyQuery2= "DELETE FROM satisfaction WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
+                Statement st = conn.createStatement();
+                st.addBatch(modifyQuery2);
+                st.addBatch(modifyQuery);
+                int[] deletedRows = st.executeBatch();
                 System.out.println("Modified successfully");
             }catch(Exception e){
                 e.printStackTrace();
@@ -1065,7 +1072,7 @@ public class adminPanel extends javax.swing.JFrame {
         String Membership="";
         String Subtotal="";
         String Satisfaction="";
-        model = (DefaultTableModel) tblCustInfo.getModel();
+        model = (DefaultTableModel) tblSubInfo.getModel();
         model.setRowCount(0);
         model2 = (DefaultTableModel) tblTransInfo.getModel();
         int rowTrans = tblTransInfo.getSelectedRow();
@@ -1094,20 +1101,23 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshSubtotalActionPerformed
 
     private void btnRemoveTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTransActionPerformed
-        if(tblTransInfo.getSelectedRow()!=-1){
+        if(tblTransInfo.getSelectedRow()!= -1){
             model = (DefaultTableModel) tblTransInfo.getModel();
             int row = tblTransInfo.getSelectedRow();
             Object id = model.getValueAt(row, 0);
             
-            String delRow = "DELETE FROM satisfaction WHERE invoicenum IN (SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id + ");" +
-                            "DELETE FROM subtotalcalculation " +
-                            "WHERE invoicenum IN " +
-                            "(SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id +");" +
-                            "DELETE FROM transactioninfo WHERE invoicenum="+ id +";";
+            String delRow1 = "DELETE FROM satisfaction WHERE invoicenum IN (SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id + ");";
+            String delRow2 = "DELETE FROM subtotalcomputation " +
+                             "WHERE invoicenum IN " +
+                             "(SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id +");";
+            String delRow3 = "DELETE FROM transactioninfo WHERE invoicenum="+ id +";";
             try{
-                pst = conn.prepareStatement(delRow);
-                pst.execute();
-                model.removeRow(tblCustInfo.getSelectedRow());
+                Statement st = conn.createStatement();
+                st.addBatch(delRow1);
+                st.addBatch(delRow2);
+                st.addBatch(delRow3);
+                int[] deletedRows = st.executeBatch();
+                model.removeRow(tblTransInfo.getSelectedRow());
                 System.out.println("Transaction Row deleted successfully");
             }catch(Exception e){
                 e.printStackTrace();
@@ -1125,23 +1135,23 @@ public class adminPanel extends javax.swing.JFrame {
             String Payment="";
             String Member="";
             String Total="";
-            model = (DefaultTableModel) tblCustInfo.getModel();
+            model = (DefaultTableModel) tblTransInfo.getModel();
             model.setRowCount(0);
             String ins = "SELECT ti.*," +
                          "(SELECT SUM(sc.subtotal) FROM subtotalcomputation AS sc WHERE ti.invoicenum = sc.invoicenum) AS total, " +
-                         "(SELECT MemID FROM customer FROM customerinfo AS ci WHERE ti.custid = ci.custid) AS member " +
-                         "FROM transactioninfo AS ti";
+                         "(SELECT MemID FROM customerinfo AS ci, transactioninfo AS ti WHERE ti.custid = ci.custid) AS member " +
+                         "FROM transactioninfo AS ti;";
             pst = conn.prepareStatement(ins);
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
-                Invoice = rs.getString("invoicenum");
-                Customer="custid";
-                Date="date";
-                Time="time";
-                Branch="branch";
-                Payment="paymentmethod";
-                Member="member";
-                Total="total";
+                Invoice = rs.getString("InvoiceNum");
+                Customer=rs.getString("CustID");
+                Date=rs.getString("Date");
+                Time=rs.getString("Time");
+                Branch=rs.getString("Branch");
+                Payment=rs.getString("PaymentMethod");
+                Member=rs.getString("Member");
+                Total=rs.getString("Total");
                 model.addRow(new Object[]{Invoice, Customer, Date, Time, Branch, Payment, Member, Total});
             }
         }catch(Exception e){
@@ -1151,14 +1161,16 @@ public class adminPanel extends javax.swing.JFrame {
 
     private void btnAddTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTransActionPerformed
         try{            
-            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("uuuu-LL-dd");
             String dateInputText = txtDateTrans.getText();
-            LocalDate dateInput = LocalDate.parse(dateInputText, DTF);
+            LocalDate dateInput = LocalDate.parse(dateInputText.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+            System.out.println(dateInputText);
+            System.out.println(dateInput);
             String timeInputText = txtTimeTrans.getText();
             LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
             
             String ins = "INSERT INTO transactioninfo " +
-                            "InvoiceNum, CustID, Date, Time, Branch, PaymentMethod " +
+                            "(InvoiceNum, CustID, Date, Time, Branch, PaymentMethod) " +
                             "VALUES (?, ?, ?, ?, ?, ?)";
             pst = conn.prepareStatement(ins);
             pst.setString(1,txtInvoiceTrans.getText());
@@ -1176,8 +1188,8 @@ public class adminPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddTransActionPerformed
 
     private void btnUpdateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTransActionPerformed
-        if(tblTransInfo.getSelectedRow()!=-1){
-            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-uuuu");
+        if(tblTransInfo.getSelectedRow()!= -1){
+            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("uuuu-MM-dd");
             String dateInputText = txtDateTrans.getText();
             LocalDate dateInput = LocalDate.parse(dateInputText, DTF);
             String timeInputText = txtTimeTrans.getText();
