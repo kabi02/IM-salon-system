@@ -4,13 +4,12 @@
  */
 package salonsystem;
 
-/**
- *
- * @author Kirby
- */
+import java.sql.*;
+
 public class registerNewCust extends javax.swing.JFrame {
 
     String strName, strGender, strAddress;
+    SQLConnector dbConn = new SQLConnector();
     
     public registerNewCust() {
         initComponents();
@@ -170,9 +169,25 @@ public class registerNewCust extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        Connection conn = dbConn.dbConn();
+        PreparedStatement stmt = null;
+        
         strName = txtName.getText();
         strGender = genderSelection.getSelection().getActionCommand();
         strAddress = txtAddress.getText();
+        
+        try{            
+            String ins = "INSERT INTO customerinfo (custid, custname, custgender, custaddress, memid) VALUES(null,?,?,?,null)";
+            stmt = conn.prepareStatement(ins);
+            stmt.setString(1, strName);
+            stmt.setString(2, strGender);
+            stmt.setString(3, strAddress);
+            
+            stmt.executeUpdate();
+            System.out.println("Inserted successfully");
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_btnOKActionPerformed
 
     /**
