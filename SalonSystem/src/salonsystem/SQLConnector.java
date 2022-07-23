@@ -5,12 +5,13 @@
 package salonsystem;
 
 import java.sql.*;
-import java.sql.DatabaseMetaData
+import java.sql.DatabaseMetaData;
 public class SQLConnector {
     public Connection dbConn() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/salondb","root","admin");
+            //Connection conn = DriverManager.getConnection("jdbc:mysql://db4free.net:3306/salondb", "imsalon2022", "50df0cfc");
             System.out.println("Connected to database");
             DatabaseMetaData dbmd = conn.getMetaData();
             System.out.printf("JDBC: %d.%d%n", dbmd.getJDBCMajorVersion(), dbmd.getJDBCMinorVersion());
