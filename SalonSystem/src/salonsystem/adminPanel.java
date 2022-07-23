@@ -12,7 +12,7 @@ import java.time.LocalTime;
 
 public class adminPanel extends javax.swing.JFrame {
     
-    SQLConnector dbConn = new SQLConnector();   
+    SQLConnector dbConn = new SQLConnector();
     DefaultTableModel model = new DefaultTableModel();
     DefaultTableModel model2 = new DefaultTableModel();
     
@@ -35,11 +35,9 @@ public class adminPanel extends javax.swing.JFrame {
         btnGroupBeautTier = new javax.swing.ButtonGroup();
         tabMain = new javax.swing.JTabbedPane();
         pnlMembers = new javax.swing.JPanel();
-        btnRemove = new javax.swing.JButton();
         btnModify = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCustInfo = new javax.swing.JTable();
-        btnRefreshCust = new javax.swing.JButton();
         lblCustNameSide = new javax.swing.JLabel();
         txtCustNameSide = new javax.swing.JTextField();
         btnGenderMaleSide = new javax.swing.JRadioButton();
@@ -47,13 +45,13 @@ public class adminPanel extends javax.swing.JFrame {
         btnGenderOthersSide = new javax.swing.JRadioButton();
         lblGenderSide = new javax.swing.JLabel();
         lblAddressSide = new javax.swing.JLabel();
-        txtAddressSide = new javax.swing.JTextField();
+        txtMemSide = new javax.swing.JTextField();
         btnAddSide = new javax.swing.JButton();
+        btnCustRefresh = new javax.swing.JButton();
+        btnCustRemove = new javax.swing.JButton();
         pnlTransactions = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSubInfo = new javax.swing.JTable();
-        txtInvoiceTrans = new javax.swing.JTextField();
-        lblCustNameSide1 = new javax.swing.JLabel();
         lblCustNameSide2 = new javax.swing.JLabel();
         txtCustTrans = new javax.swing.JTextField();
         lblCustNameSide3 = new javax.swing.JLabel();
@@ -93,16 +91,30 @@ public class adminPanel extends javax.swing.JFrame {
         btnTierNovice = new javax.swing.JRadioButton();
         btnTierExpert = new javax.swing.JRadioButton();
         btnBeautRefresh = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblTierInfo = new javax.swing.JTable();
+        lblBeautName2 = new javax.swing.JLabel();
+        txtTierFee = new javax.swing.JTextField();
+        btnTierAdd = new javax.swing.JButton();
+        btnTierRemove = new javax.swing.JButton();
+        btnTierModify = new javax.swing.JButton();
+        btnTierRefresh = new javax.swing.JButton();
+        pnlBeautInfo1 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblServInfo = new javax.swing.JTable();
+        btnServAdd = new javax.swing.JButton();
+        btnServModify = new javax.swing.JButton();
+        btnServRemove = new javax.swing.JButton();
+        lblBeautName1 = new javax.swing.JLabel();
+        lblBeautTier1 = new javax.swing.JLabel();
+        txtServName = new javax.swing.JTextField();
+        btnServRefresh = new javax.swing.JButton();
+        txtServFee = new javax.swing.JTextField();
+        txtServHair = new javax.swing.JTextField();
+        lblBeautTier2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
-
-        btnRemove.setText("Remove");
-        btnRemove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveActionPerformed(evt);
-            }
-        });
 
         btnModify.setText("Modify");
         btnModify.addActionListener(new java.awt.event.ActionListener() {
@@ -116,15 +128,22 @@ public class adminPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Address", "Gender", "Membership ID"
+                "ID", "Name", "Gender", "Membership ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         String ID="";
@@ -140,10 +159,9 @@ public class adminPanel extends javax.swing.JFrame {
             while(rs.next()){
                 ID = rs.getString("custid");
                 Name = rs.getString("custname");
-                Address = rs.getString("custaddress");
                 Gender = rs.getString("custgender");
                 MemID = rs.getString("memid");
-                model.addRow(new Object[]{ID,Name,Address,Gender,MemID});
+                model.addRow(new Object[]{ID,Name,Gender,MemID});
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -158,16 +176,9 @@ public class adminPanel extends javax.swing.JFrame {
         if (tblCustInfo.getColumnModel().getColumnCount() > 0) {
             tblCustInfo.getColumnModel().getColumn(0).setMinWidth(55);
             tblCustInfo.getColumnModel().getColumn(0).setMaxWidth(55);
-            tblCustInfo.getColumnModel().getColumn(3).setMinWidth(65);
-            tblCustInfo.getColumnModel().getColumn(3).setMaxWidth(65);
+            tblCustInfo.getColumnModel().getColumn(2).setMinWidth(65);
+            tblCustInfo.getColumnModel().getColumn(2).setMaxWidth(65);
         }
-
-        btnRefreshCust.setText("Refresh");
-        btnRefreshCust.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshCustActionPerformed(evt);
-            }
-        });
 
         lblCustNameSide.setText("Name");
 
@@ -185,7 +196,7 @@ public class adminPanel extends javax.swing.JFrame {
 
         lblGenderSide.setText("Gender");
 
-        lblAddressSide.setText("Address");
+        lblAddressSide.setText("MemID");
 
         btnAddSide.setText("Add");
         btnAddSide.addActionListener(new java.awt.event.ActionListener() {
@@ -194,15 +205,29 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
 
+        btnCustRefresh.setText("Refresh");
+        btnCustRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCustRefreshActionPerformed(evt);
+            }
+        });
+
+        btnCustRemove.setText("Remove");
+        btnCustRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCustRemoveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlMembersLayout = new javax.swing.GroupLayout(pnlMembers);
         pnlMembers.setLayout(pnlMembersLayout);
         pnlMembersLayout.setHorizontalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMembersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnRemove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnRefreshCust)
+                .addGap(16, 16, 16)
+                .addComponent(btnCustRemove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCustRefresh)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlMembersLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,15 +256,15 @@ public class adminPanel extends javax.swing.JFrame {
                             .addGroup(pnlMembersLayout.createSequentialGroup()
                                 .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtAddressSide))))
+                            .addComponent(txtMemSide))))
                 .addGap(0, 76, Short.MAX_VALUE))
         );
         pnlMembersLayout.setVerticalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMembersLayout.createSequentialGroup()
                 .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRemove)
-                    .addComponent(btnRefreshCust))
+                    .addComponent(btnCustRefresh)
+                    .addComponent(btnCustRemove))
                 .addGap(6, 6, 6)
                 .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMembersLayout.createSequentialGroup()
@@ -256,7 +281,7 @@ public class adminPanel extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAddressSide)
-                            .addComponent(txtAddressSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMemSide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddSide)
@@ -278,7 +303,7 @@ public class adminPanel extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -293,14 +318,6 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tblSubInfo);
-
-        txtInvoiceTrans.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtInvoiceTransActionPerformed(evt);
-            }
-        });
-
-        lblCustNameSide1.setText("Invoice Number:");
 
         lblCustNameSide2.setText("Customer ID:");
 
@@ -351,7 +368,7 @@ public class adminPanel extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true, true, false, false
@@ -477,13 +494,9 @@ public class adminPanel extends javax.swing.JFrame {
                                     .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(pnlTransactionsLayout.createSequentialGroup()
-                                                .addComponent(lblCustNameSide1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtInvoiceTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(pnlTransactionsLayout.createSequentialGroup()
                                                 .addComponent(lblCustNameSide2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtCustTrans))
+                                                .addComponent(txtCustTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                                             .addGroup(pnlTransactionsLayout.createSequentialGroup()
                                                 .addComponent(lblCustNameSide3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -517,18 +530,14 @@ public class adminPanel extends javax.swing.JFrame {
                                         .addComponent(btnUpdateTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnAddTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         pnlTransactionsLayout.setVerticalGroup(
             pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTransactionsLayout.createSequentialGroup()
                 .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlTransactionsLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtInvoiceTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCustNameSide1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(59, 59, 59)
                         .addGroup(pnlTransactionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCustTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblCustNameSide2))
@@ -678,19 +687,91 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
 
+        tblTierInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tier", "Tier Fee"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblTierInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTierInfoMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tblTierInfo);
+        if (tblTierInfo.getColumnModel().getColumnCount() > 0) {
+            tblTierInfo.getColumnModel().getColumn(0).setMinWidth(65);
+            tblTierInfo.getColumnModel().getColumn(0).setMaxWidth(65);
+        }
+
+        lblBeautName2.setText("Tier Fee");
+
+        btnTierAdd.setText("Add");
+        btnTierAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTierAddActionPerformed(evt);
+            }
+        });
+
+        btnTierRemove.setText("Remove");
+        btnTierRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTierRemoveActionPerformed(evt);
+            }
+        });
+
+        btnTierModify.setText("Modify");
+        btnTierModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTierModifyActionPerformed(evt);
+            }
+        });
+
+        btnTierRefresh.setText("Refresh");
+        btnTierRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTierRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlBeautInfoLayout = new javax.swing.GroupLayout(pnlBeautInfo);
         pnlBeautInfo.setLayout(pnlBeautInfoLayout);
         pnlBeautInfoLayout.setHorizontalGroup(
             pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBeautInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBeautRemove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnBeautRefresh)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 29, Short.MAX_VALUE)
+                .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                                .addComponent(lblBeautName2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTierFee, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                                .addComponent(btnTierAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btnTierModify, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(pnlBeautInfoLayout.createSequentialGroup()
                         .addComponent(lblBeautName)
@@ -714,6 +795,18 @@ public class adminPanel extends javax.swing.JFrame {
                                 .addComponent(btnBeautModify, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(31, 31, 31))
+            .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addComponent(btnBeautRemove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBeautRefresh))
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addComponent(btnTierRemove)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnTierRefresh)))
+                .addContainerGap(828, Short.MAX_VALUE))
         );
         pnlBeautInfoLayout.setVerticalGroup(
             pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -722,9 +815,6 @@ public class adminPanel extends javax.swing.JFrame {
                     .addComponent(btnBeautRemove)
                     .addComponent(btnBeautRefresh))
                 .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlBeautInfoLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -739,11 +829,167 @@ public class adminPanel extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBeautAdd)
-                            .addComponent(btnBeautModify))))
-                .addContainerGap())
+                            .addComponent(btnBeautModify)))
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBeautName2)
+                            .addComponent(txtTierFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTierAdd)
+                            .addComponent(btnTierModify)))
+                    .addGroup(pnlBeautInfoLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(pnlBeautInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTierRemove)
+                            .addComponent(btnTierRefresh))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(132, 132, 132))
         );
 
         tabMain.addTab("Beautician", pnlBeautInfo);
+
+        tblServInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Service Code", "Name", "Hair Length", "Base Fee"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblServInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblServInfoMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tblServInfo);
+        if (tblServInfo.getColumnModel().getColumnCount() > 0) {
+            tblServInfo.getColumnModel().getColumn(0).setMinWidth(65);
+            tblServInfo.getColumnModel().getColumn(0).setMaxWidth(65);
+        }
+
+        btnServAdd.setText("Add");
+        btnServAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServAddActionPerformed(evt);
+            }
+        });
+
+        btnServModify.setText("Modify");
+        btnServModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServModifyActionPerformed(evt);
+            }
+        });
+
+        btnServRemove.setText("Remove");
+        btnServRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServRemoveActionPerformed(evt);
+            }
+        });
+
+        lblBeautName1.setText("Name");
+
+        lblBeautTier1.setText("Hair Length");
+
+        btnServRefresh.setText("Refresh");
+        btnServRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServRefreshActionPerformed(evt);
+            }
+        });
+
+        lblBeautTier2.setText("SerBFee");
+
+        javax.swing.GroupLayout pnlBeautInfo1Layout = new javax.swing.GroupLayout(pnlBeautInfo1);
+        pnlBeautInfo1.setLayout(pnlBeautInfo1Layout);
+        pnlBeautInfo1Layout.setHorizontalGroup(
+            pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnServRemove)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnServRefresh)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                                .addComponent(lblBeautName1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtServName, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlBeautInfo1Layout.createSequentialGroup()
+                                .addComponent(lblBeautTier1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtServHair, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                                .addComponent(lblBeautTier2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtServFee, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(86, 86, 86))
+                    .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(btnServAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnServModify, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        pnlBeautInfo1Layout.setVerticalGroup(
+            pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBeautInfo1Layout.createSequentialGroup()
+                .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnServRemove)
+                    .addComponent(btnServRefresh))
+                .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlBeautInfo1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblBeautName1)
+                            .addComponent(txtServName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBeautTier1)
+                            .addComponent(txtServHair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtServFee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblBeautTier2))
+                        .addGap(20, 20, 20)
+                        .addGroup(pnlBeautInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnServAdd)
+                            .addComponent(btnServModify))))
+                .addContainerGap())
+        );
+
+        tabMain.addTab("Service", pnlBeautInfo1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -760,106 +1006,6 @@ public class adminPanel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    String addName, addGender, addAddress;
-    
-    private void btnBeautAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautAddActionPerformed
-         try{            
-            String ins = "INSERT INTO beauticianinfo (beautid, beautname, beauttier) VALUES(null,?,?)";
-            pst = conn.prepareStatement(ins);
-            pst.setString(1, txtBeautName.getText());
-            pst.setInt(2, Integer.parseInt(btnGroupBeautTier.getSelection().getActionCommand()));
-            
-            pst.executeUpdate();
-            System.out.println("Inserted successfully");
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btnBeautAddActionPerformed
-
-    //refresh table
-    private void btnRefreshCustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshCustActionPerformed
-        String ID="";
-        String Name="";
-        String Address="";
-        String MemID="";
-        String Gender="";
-        model = (DefaultTableModel) tblCustInfo.getModel();
-        model.setRowCount(0);
-        try{
-            pst = conn.prepareStatement("SELECT * FROM customerinfo");
-            ResultSet rs = pst.executeQuery();
-
-            while(rs.next()){
-                ID = rs.getString("custid");
-                Name = rs.getString("custname");
-                Address = rs.getString("custaddress");
-                MemID = rs.getString("memid");
-                Gender = rs.getString("custgender");
-                model.addRow(new Object[]{ID,Name,Address,Gender,MemID});
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnRefreshCustActionPerformed
-    
-    //delete a row
-    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        if(tblCustInfo.getSelectedRow()!=-1){
-            model = (DefaultTableModel) tblCustInfo.getModel();
-            int row = tblCustInfo.getSelectedRow();
-            Object id = model.getValueAt(row, 0);
-            
-            String delRow = "DELETE FROM customerinfo WHERE custid="+id;
-            try{
-                pst = conn.prepareStatement(delRow);
-                pst.execute();
-                model.removeRow(tblCustInfo.getSelectedRow());
-                System.out.println("Row deleted successfully");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    }//GEN-LAST:event_btnRemoveActionPerformed
-
-    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
-        if(tblCustInfo.getSelectedRow()!=-1){
-            model = (DefaultTableModel) tblCustInfo.getModel();
-            int row = tblCustInfo.getSelectedRow();
-            Object id = model.getValueAt(row, 0);
-            String modifyQuery="update customerinfo set custname=?, custgender=?, custaddress=? where custid="+id;
-            try{
-                pst = conn.prepareStatement(modifyQuery);
-                pst.setString(1, txtCustNameSide.getText());
-                pst.setString(2, btnGroupGenderSide.getSelection().getActionCommand());
-                pst.setString(3, txtAddressSide.getText());
-                
-                pst.executeUpdate();
-                System.out.println("Modified successfully");
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        }
-    }//GEN-LAST:event_btnModifyActionPerformed
-
-    private void btnAddSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSideActionPerformed
-        try{            
-            String ins = "INSERT INTO customerinfo (custid, custname, custgender, custaddress, memid) VALUES(null,?,?,?,null)";
-            pst = conn.prepareStatement(ins);
-            pst.setString(1, txtCustNameSide.getText());
-            pst.setString(2, btnGroupGenderSide.getSelection().getActionCommand());
-            pst.setString(3, txtAddressSide.getText());
-            
-            pst.executeUpdate();
-            System.out.println("Inserted successfully");
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btnAddSideActionPerformed
-
-    private void tblCustInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustInfoMouseClicked
-        
-    }//GEN-LAST:event_tblCustInfoMouseClicked
 
     private void btnBeautRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautRefreshActionPerformed
         String ID="";
@@ -887,7 +1033,7 @@ public class adminPanel extends javax.swing.JFrame {
             model = (DefaultTableModel) tblBeautInfo.getModel();
             int row = tblBeautInfo.getSelectedRow();
             Object id = model.getValueAt(row, 0);
-            
+
             String delRow = "DELETE FROM beauticianinfo WHERE beautid="+id;
             try{
                 pst = conn.prepareStatement(delRow);
@@ -900,10 +1046,6 @@ public class adminPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBeautRemoveActionPerformed
 
-    private void tblBeautInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBeautInfoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblBeautInfoMouseClicked
-
     private void btnBeautModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautModifyActionPerformed
         if(tblBeautInfo.getSelectedRow()!=-1){
             model = (DefaultTableModel) tblBeautInfo.getModel();
@@ -914,155 +1056,152 @@ public class adminPanel extends javax.swing.JFrame {
                 pst = conn.prepareStatement(modifyQuery);
                 pst.setString(1, txtBeautName.getText());
                 pst.setInt(2, Integer.parseInt(btnGroupBeautTier.getSelection().getActionCommand()));
-                
+
                 pst.executeUpdate();
                 System.out.println("Modified successfully");
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_btnBeautModifyActionPerformed
 
-    private void txtInvoiceTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInvoiceTransActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtInvoiceTransActionPerformed
+    private void btnBeautAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeautAddActionPerformed
+        try{
+            String ins = "INSERT INTO beauticianinfo (beautname, beauttier) VALUES(?,?)";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1, txtBeautName.getText());
+            pst.setInt(2, Integer.parseInt(btnGroupBeautTier.getSelection().getActionCommand()));
 
-    private void txtCustTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustTransActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCustTransActionPerformed
+            pst.executeUpdate();
+            System.out.println("Inserted successfully");
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnBeautAddActionPerformed
 
-    private void txtDateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateTransActionPerformed
+    private void tblBeautInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBeautInfoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDateTransActionPerformed
+    }//GEN-LAST:event_tblBeautInfoMouseClicked
 
-    private void txtTimeTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeTransActionPerformed
+    private void txtSatisSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSatisSubActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimeTransActionPerformed
+    }//GEN-LAST:event_txtSatisSubActionPerformed
 
-    private void txtBranchTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBranchTransActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBranchTransActionPerformed
+    private void btnUpdateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTransActionPerformed
+        if(tblTransInfo.getSelectedRow()!= -1){
+            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+            String dateInputText = txtDateTrans.getText();
+            LocalDate dateInput = LocalDate.parse(dateInputText, DTF);
+            String timeInputText = txtTimeTrans.getText();
+            LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
 
-    private void txtPayTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPayTransActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPayTransActionPerformed
-
-    private void txtBeautIdSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBeautIdSubActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBeautIdSubActionPerformed
-
-    private void txtServCodeSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtServCodeSubActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtServCodeSubActionPerformed
-
-    private void btnAddSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubActionPerformed
-        try{            
             model = (DefaultTableModel) tblTransInfo.getModel();
             int row = tblTransInfo.getSelectedRow();
             Object id = model.getValueAt(row, 0);
-            Object cust_id = model.getValueAt(row, 1);
+            String modifyQuery= "UPDATE transactioninfo " +
+            "SET Date=?, Time=?, Branch=?, PaymentMethod=? " +
+            "WHERE InvoiceNum="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setObject(1, dateInput);
+                pst.setObject(2, timeInput);
+                pst.setString(3, txtBranchTrans.getText());
+                pst.setString(4, txtPayTrans.getText());
+
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnUpdateTransActionPerformed
+
+    private void btnAddTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTransActionPerformed
+        try{
+            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("uuuu-LL-dd");
+            String dateInputText = txtDateTrans.getText();
+            LocalDate dateInput = LocalDate.parse(dateInputText.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+            System.out.println(dateInputText);
+            System.out.println(dateInput);
+            String timeInputText = txtTimeTrans.getText();
+            LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
+
             String ins = "INSERT INTO transactioninfo " +
-                         "InvoiceNum, BeautID, SerCode, MemID, BeautTF, SerBFee, " +
-                         "VALUES(" +
-                         "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"), " +
-                         "(SELECT BeautID FROM beauticianinfo WHERE BeautID=?), " +
-                         "(SELECT SerCode FROM serviceinfo WHERE SerCode=?), " +
-                         "(SELECT MemID FROM customerinfo as custid=" + cust_id +
-                         " (SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=?))," +
-                         "(SELECT SerBFee FROM serviceinfo WHERE SerCode=?) " +
-                         ");";
-            String ins2 = "INSERT INTO satisfaction " +
-                         "InvoiceNuM, SerCode, Satisfaction" +
-                         "VALUES( " +
-                         "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"), " +
-                         "(SELECT BeautID FROM beauticianinfo WHERE BeautID=?), " +
-                         "?";
-            PreparedStatement pst1, pst2;
-            pst1 = conn.prepareStatement(ins);
-            pst1.setString(1, txtBeautIdSub.getText());
-            pst1.setString(2, txtServCodeSub.getText());
-            pst1.setString(3, txtBeautIdSub.getText());
-            pst1.setString(4, txtServCodeSub.getText());
-            pst2 = conn.prepareStatement(ins2);
-            pst2.setString(1, txtBeautIdSub.getText());
-            pst2.setString(2, txtSatisSub.getText());
-            
-            pst1.executeUpdate();
-            pst2.executeUpdate();
-            conn.commit();
+            "(CustID, Date, Time, Branch, PaymentMethod) " +
+            "VALUES ((SELECT CustID FROM customerinfo WHERE CustID=?), ?, ?, ?, ?)";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1,txtCustTrans.getText());
+            pst.setObject(2,dateInput);
+            pst.setObject(3,timeInput);
+            pst.setString(4,txtBranchTrans.getText());
+            pst.setString(5,txtPayTrans.getText());
+
+            pst.executeUpdate();
             System.out.println("Inserted Transaction successfully");
         } catch(SQLException ex){
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_btnAddSubActionPerformed
+    }//GEN-LAST:event_btnAddTransActionPerformed
 
-    private void btnUpdateSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSubActionPerformed
-        if(tblTransInfo.getSelectedRow()!=-1){  
-            model = (DefaultTableModel) tblSubInfo.getModel();
-            int row = tblSubInfo.getSelectedRow();
-            Object idServ = model.getValueAt(row, 2);
-            model2 = (DefaultTableModel) tblTransInfo.getModel();
-            int rowTrans = tblTransInfo.getSelectedRow();
-            Object idTrans = model2.getValueAt(rowTrans, 2);
-            
-            if (txtSatisSub.getText() == "") {
-            String modifyQuery= "UPDATE subtotalcomputation " +
-                                "SET BeautID=?, SerCode=? " +
-                                "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +") "  +
-                                "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ";";
-            try{
-                pst = conn.prepareStatement(modifyQuery);
-                pst.setObject(1, txtBeautIdSub.getText());
-                pst.setObject(2, txtServCodeSub.getText());
+    private void btnRefreshTransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTransactionsActionPerformed
+        try{
+            String Invoice="";
+            String Customer="";
+            String Date="";
+            String Time="";
+            String Branch="";
+            String Payment="";
+            String Member="";
+            String Total="";
+            model = (DefaultTableModel) tblTransInfo.getModel();
+            model.setRowCount(0);
+            String ins = "SELECT ti.*, ci.memid as member,\n" +
+            "(SELECT SUM(sc.subtotal) FROM subtotalcomputation AS sc WHERE ti.invoicenum IN (sc.invoicenum)) AS total\n" +
+            "FROM transactioninfo AS ti, customerinfo as ci\n" +
+            "WHERE ti.custid = ci.custid";
+            pst = conn.prepareStatement(ins);
+            ResultSet rs = pst.executeQuery();
+            System.out.println(rs);
+            while(rs.next()){
+                Invoice = rs.getString("InvoiceNum");
+                Customer=rs.getString("CustID");
+                Date=rs.getString("Date");
+                Time=rs.getString("Time");
+                Branch=rs.getString("Branch");
+                Payment=rs.getString("PaymentMethod");
+                Member=rs.getString("Member");
+                Total=rs.getString("Total");
+                model.addRow(new Object[]{Invoice, Customer, Date, Time, Branch, Payment, Member, Total});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRefreshTransactionsActionPerformed
 
-                pst.executeUpdate();
-                System.out.println("Modified successfully (w/o satisfaction)");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            } else {
-            String modifyQuery= "UPDATE subtotalcomputation " +
-                                "SET BeautID=?, SerCode=? " +
-                                "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +") "  +
-                                "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ";" +
-                                "UPDATE satisfaction " +
-                                "SET satisfaction=?" + 
-                                "WHERE InvoiceNum =" + idTrans + "AND SerCode=" + idServ + ";";
-            try{
-                pst = conn.prepareStatement(modifyQuery);
-                pst.setObject(1, txtBeautIdSub.getText());
-                pst.setObject(2, txtServCodeSub.getText());
-                pst.setString(3, txtSatisSub.getText());
-
-                pst.executeUpdate();
-                System.out.println("Modified successfully (w/ satisfaction)");
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            }
-        }
-    }//GEN-LAST:event_btnUpdateSubActionPerformed
-    private void btnRemoveSubtotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSubtotalActionPerformed
-        if(tblTransInfo.getSelectedRow()!=-1 && tblSubInfo.getSelectedRow()!=-1) {
-            try{
+    private void btnRemoveTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTransActionPerformed
+        if(tblTransInfo.getSelectedRow()!= -1){
             model = (DefaultTableModel) tblTransInfo.getModel();
             int row = tblTransInfo.getSelectedRow();
-            Object idTrans = model.getValueAt(row, 0);
-            model2 = (DefaultTableModel) tblSubInfo.getModel();
-            int rowSub = tblSubInfo.getSelectedRow();
-            Object idSub = model2.getValueAt(rowSub, 2);
-            String modifyQuery= "DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
-            String modifyQuery2= "DELETE FROM satisfaction WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
+            Object id = model.getValueAt(row, 0);
+
+            String delRow1 = "DELETE FROM satisfaction WHERE invoicenum IN (SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id + ");";
+            String delRow2 = "DELETE FROM subtotalcomputation " +
+            "WHERE invoicenum IN " +
+            "(SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id +");";
+            String delRow3 = "DELETE FROM transactioninfo WHERE invoicenum="+ id +";";
+            try{
                 Statement st = conn.createStatement();
-                st.addBatch(modifyQuery2);
-                st.addBatch(modifyQuery);
+                st.addBatch(delRow1);
+                st.addBatch(delRow2);
+                st.addBatch(delRow3);
                 int[] deletedRows = st.executeBatch();
-                System.out.println("Modified successfully");
+                model.removeRow(tblTransInfo.getSelectedRow());
+                System.out.println("Transaction Row deleted successfully");
             }catch(Exception e){
                 e.printStackTrace();
             }
-        }
-    }//GEN-LAST:event_btnRemoveSubtotalActionPerformed
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRemoveTransActionPerformed
 
     private void btnRefreshSubtotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshSubtotalActionPerformed
         String Beautician="";
@@ -1076,11 +1215,11 @@ public class adminPanel extends javax.swing.JFrame {
         model.setRowCount(0);
         model2 = (DefaultTableModel) tblTransInfo.getModel();
         int rowTrans = tblTransInfo.getSelectedRow();
-        Object idTrans = model2.getValueAt(rowTrans, 2);
+        Object idTrans = model2.getValueAt(rowTrans, 0);
         String refreshQuery = "SELECT * " +
-                "FROM subtotalcomputation AS SC, satisfaction AS sat " +
-                "WHERE sc.InvoiceNum = " + idTrans + " AND sat.InvoiceNum = "+ idTrans + 
-                "HAVING sc.ServCode = sat.ServCode";
+        "FROM subtotalcomputation AS SC, satisfaction AS sat " +
+        "WHERE sc.InvoiceNum = " + idTrans + " AND sat.InvoiceNum = " + idTrans + " " +
+        "AND (sat.SerCode = sc.serCode);";
         try{
             pst = conn.prepareStatement(refreshQuery);
             ResultSet rs = pst.executeQuery();
@@ -1100,126 +1239,402 @@ public class adminPanel extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnRefreshSubtotalActionPerformed
 
-    private void btnRemoveTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTransActionPerformed
-        if(tblTransInfo.getSelectedRow()!= -1){
-            model = (DefaultTableModel) tblTransInfo.getModel();
-            int row = tblTransInfo.getSelectedRow();
-            Object id = model.getValueAt(row, 0);
-            
-            String delRow1 = "DELETE FROM satisfaction WHERE invoicenum IN (SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id + ");";
-            String delRow2 = "DELETE FROM subtotalcomputation " +
-                             "WHERE invoicenum IN " +
-                             "(SELECT invoicenum FROM transactioninfo WHERE invoicenum="+ id +");";
-            String delRow3 = "DELETE FROM transactioninfo WHERE invoicenum="+ id +";";
+    private void btnRemoveSubtotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSubtotalActionPerformed
+        if(tblTransInfo.getSelectedRow()!=-1 && tblSubInfo.getSelectedRow()!=-1) {
             try{
+                model = (DefaultTableModel) tblTransInfo.getModel();
+                int row = tblTransInfo.getSelectedRow();
+                Object idTrans = model.getValueAt(row, 0);
+                model2 = (DefaultTableModel) tblSubInfo.getModel();
+                int rowSub = tblSubInfo.getSelectedRow();
+                Object idSub = model2.getValueAt(rowSub, 2);
+                String modifyQuery= "DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
+                String modifyQuery2= "DELETE FROM satisfaction WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
                 Statement st = conn.createStatement();
-                st.addBatch(delRow1);
-                st.addBatch(delRow2);
-                st.addBatch(delRow3);
+                st.addBatch(modifyQuery2);
+                st.addBatch(modifyQuery);
                 int[] deletedRows = st.executeBatch();
-                model.removeRow(tblTransInfo.getSelectedRow());
-                System.out.println("Transaction Row deleted successfully");
+                System.out.println("Modified successfully");
             }catch(Exception e){
                 e.printStackTrace();
             }
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRemoveTransActionPerformed
+        }
+    }//GEN-LAST:event_btnRemoveSubtotalActionPerformed
 
-    private void btnRefreshTransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshTransactionsActionPerformed
-        try{
-            String Invoice="";
-            String Customer="";
-            String Date="";
-            String Time="";
-            String Branch="";
-            String Payment="";
-            String Member="";
-            String Total="";
-            model = (DefaultTableModel) tblTransInfo.getModel();
-            model.setRowCount(0);
-            String ins = "SELECT ti.*," +
-                         "(SELECT SUM(sc.subtotal) FROM subtotalcomputation AS sc WHERE ti.invoicenum = sc.invoicenum) AS total, " +
-                         "(SELECT MemID FROM customerinfo AS ci, transactioninfo AS ti WHERE ti.custid = ci.custid) AS member " +
-                         "FROM transactioninfo AS ti;";
-            pst = conn.prepareStatement(ins);
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()){
-                Invoice = rs.getString("InvoiceNum");
-                Customer=rs.getString("CustID");
-                Date=rs.getString("Date");
-                Time=rs.getString("Time");
-                Branch=rs.getString("Branch");
-                Payment=rs.getString("PaymentMethod");
-                Member=rs.getString("Member");
-                Total=rs.getString("Total");
-                model.addRow(new Object[]{Invoice, Customer, Date, Time, Branch, Payment, Member, Total});
+    private void btnUpdateSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateSubActionPerformed
+        if(tblTransInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblSubInfo.getModel();
+            int row = tblSubInfo.getSelectedRow();
+            Object idServ = model.getValueAt(row, 2);
+            model2 = (DefaultTableModel) tblTransInfo.getModel();
+            int rowTrans = tblTransInfo.getSelectedRow();
+            Object idTrans = model2.getValueAt(rowTrans, 0);
+
+            if (txtSatisSub.getText() == "") {
+                String modifyQuery= "UPDATE subtotalcomputation " +
+                "SET BeautID=?, SerCode=?, BeautTF(SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=? AND tf.BeautTier = bi.BeautTier)" +
+                "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +") "  +
+                "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ";";
+                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE subtotal IS NULL";
+                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE subtotal IS NULL AND memID IS NOT NULL";
+                try{
+                    PreparedStatement pst2 = conn.prepareStatement(ins2);
+                    PreparedStatement pst3 = conn.prepareStatement(ins3);
+                    pst = conn.prepareStatement(modifyQuery);
+                    pst.setObject(1, txtBeautIdSub.getText());
+                    pst.setObject(2, txtServCodeSub.getText());
+                    pst.setObject(3^, txtBeautIdSub.getText());
+
+                    pst.executeUpdate();
+                    pst2.executeUpdate();
+                    pst3.executeUpdate();
+                    System.out.println("Modified successfully (w/o satisfaction)");
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            } else {
+                String modifyQuery= "UPDATE subtotalcomputation " +
+                "SET BeautID=?, SerCode=?, BeautTF=(SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=? AND tf.BeautTier = bi.BeautTier) " +
+                "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +")\n"  +
+                "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ")";
+                String ins = "UPDATE satisfaction " +
+                "SET satisfaction=?" +
+                "WHERE InvoiceNum =" + idTrans + " AND SerCode=" + idServ + ";";
+                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE subtotal IS NULL";
+                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE subtotal IS NULL AND memID IS NOT NULL";
+                try{
+                    PreparedStatement pst2, pst3, pst4;
+                    pst = conn.prepareStatement(modifyQuery);
+                    pst2 = conn.prepareStatement(ins);
+                    pst3 = conn.prepareStatement(ins2);
+                    pst4 = conn.prepareStatement(ins3);
+                    pst.setObject(1, txtBeautIdSub.getText());
+                    pst.setObject(2, txtServCodeSub.getText());
+                    pst.setObject(3, txtBeautIdSub.getText());
+                    pst2.setString(1, txtSatisSub.getText());
+
+                    pst.executeUpdate();
+                    pst2.executeUpdate();
+                    pst3.executeUpdate();
+                    pst4.executeUpdate();
+                    System.out.println("Modified successfully (w/ satisfaction)");
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRefreshTransactionsActionPerformed
+        }
+    }//GEN-LAST:event_btnUpdateSubActionPerformed
 
-    private void btnAddTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTransActionPerformed
-        try{            
-            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("uuuu-LL-dd");
-            String dateInputText = txtDateTrans.getText();
-            LocalDate dateInput = LocalDate.parse(dateInputText.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
-            System.out.println(dateInputText);
-            System.out.println(dateInput);
-            String timeInputText = txtTimeTrans.getText();
-            LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
+    private void btnAddSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubActionPerformed
+        try{
+            model = (DefaultTableModel) tblTransInfo.getModel();
+            int row = tblTransInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            Object cust_id = model.getValueAt(row, 1);
+            String ins = "INSERT INTO subtotalcomputation\n" +
+                        "(InvoiceNum, BeautID, SerCode, MemID, BeautTF, SerBFee)\n" +
+                        "VALUES(\n" +
+                        "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"),\n" +
+                        "(SELECT BeautID FROM beauticianinfo WHERE BeautID=?),\n" +
+                        "(SELECT SerCode FROM serviceinfo WHERE SerCode=?), \n" +
+                        "(SELECT MemID FROM customerinfo as ci WHERE ci.custid="+ cust_id +"),\n" +
+                        "(SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=? AND tf.BeautTier = bi.BeautTier),\n" +
+                        "(SELECT SerBFee FROM serviceinfo WHERE SerCode=?)\n" +
+                        ");";
+            String ins2 = "INSERT INTO satisfaction " +
+            "(InvoiceNuM, SerCode, Satisfaction)" +
+            "VALUES( " +
+            "(SELECT InvoiceNum FROM transactioninfo WHERE InvoiceNum="+ id +"), " +
+            "(SELECT SerCode FROM serviceinfo WHERE SerCode=?), " +
+            "?)";
             
-            String ins = "INSERT INTO transactioninfo " +
-                            "(InvoiceNum, CustID, Date, Time, Branch, PaymentMethod) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)";
-            pst = conn.prepareStatement(ins);
-            pst.setString(1,txtInvoiceTrans.getText());
-            pst.setString(2,txtCustTrans.getText());
-            pst.setObject(3,dateInput);
-            pst.setObject(4,timeInput);
-            pst.setString(5,txtBranchTrans.getText());
-            pst.setString(6,txtPayTrans.getText());
-            
-            pst.executeUpdate();
+            String ins3 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE subtotal IS NULL";
+            String ins4 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE subtotal IS NULL AND memID IS NOT NULL";
+            PreparedStatement pst1, pst2, pst3, pst4;
+            pst1 = conn.prepareStatement(ins);
+            pst1.setString(1, txtBeautIdSub.getText());
+            pst1.setString(2, txtServCodeSub.getText());
+            pst1.setString(3, txtBeautIdSub.getText());
+            pst1.setString(4, txtServCodeSub.getText());
+            pst2 = conn.prepareStatement(ins2);
+            pst2.setString(1, txtServCodeSub.getText());
+            pst2.setString(2, txtSatisSub.getText());
+            pst3 = conn.prepareStatement(ins3);
+            pst4 = conn.prepareStatement(ins4);
+
+            pst1.executeUpdate();
+            pst2.executeUpdate();
+            pst3.executeUpdate();
+            pst4.executeUpdate();
             System.out.println("Inserted Transaction successfully");
         } catch(SQLException ex){
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_btnAddTransActionPerformed
+    }//GEN-LAST:event_btnAddSubActionPerformed
 
-    private void btnUpdateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTransActionPerformed
-        if(tblTransInfo.getSelectedRow()!= -1){
-            DateTimeFormatter DTF = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-            String dateInputText = txtDateTrans.getText();
-            LocalDate dateInput = LocalDate.parse(dateInputText, DTF);
-            String timeInputText = txtTimeTrans.getText();
-            LocalTime timeInput = LocalTime.parse(timeInputText, DateTimeFormatter.ISO_LOCAL_TIME);
-            
-            model = (DefaultTableModel) tblTransInfo.getModel();
-            int row = tblTransInfo.getSelectedRow();
-            Object id = model.getValueAt(row, 0);
-            String modifyQuery= "UPDATE transactioninfo " +
-                                "SET Date=?, Time=?, Branch=?, PaymentMethod=? " +
-                                "WHERE InvoiceNum="+id;
-            try{
-                pst = conn.prepareStatement(modifyQuery);
-                pst.setObject(1, dateInput);
-                pst.setObject(2, timeInput);
-                pst.setString(3, txtBranchTrans.getText());
-                pst.setString(4, txtPayTrans.getText());
-                
-                pst.executeUpdate();
-                System.out.println("Modified successfully");
+    private void txtServCodeSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtServCodeSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtServCodeSubActionPerformed
+
+    private void txtBeautIdSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBeautIdSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBeautIdSubActionPerformed
+
+    private void txtPayTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPayTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPayTransActionPerformed
+
+    private void txtBranchTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBranchTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBranchTransActionPerformed
+
+    private void txtTimeTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimeTransActionPerformed
+
+    private void txtDateTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDateTransActionPerformed
+
+    private void txtCustTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustTransActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustTransActionPerformed
+
+    private void btnCustRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustRefreshActionPerformed
+        try{
+            String ID="";
+            String Name="";
+            String Gender="";
+            String Member="";
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            model.setRowCount(0);
+            String ins = "SELECT * FROM customerinfo";
+            pst = conn.prepareStatement(ins);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                ID=rs.getString("custid");
+                Name=rs.getString("custname");
+                Gender=rs.getString("custgender");
+                Member=rs.getString("memid");
+                model.addRow(new Object[]{ID, Name, Gender, Member});
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
+    }//GEN-LAST:event_btnCustRefreshActionPerformed
+
+    private void btnAddSideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSideActionPerformed
+        try{
+            String ins = "INSERT INTO customerinfo (custname, custgender, memid) VALUES(?,?,?)";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1, txtCustNameSide.getText());
+            pst.setString(2, btnGroupGenderSide.getSelection().getActionCommand());
+            pst.setString(3, txtMemSide.getText().length() > 0 ? txtMemSide.getText() : null);
+
+            pst.executeUpdate();
+            System.out.println("Inserted successfully");
+        }catch(SQLException ex){
+            ex.printStackTrace();
         }
-    }//GEN-LAST:event_btnUpdateTransActionPerformed
+    }//GEN-LAST:event_btnAddSideActionPerformed
 
-    private void txtSatisSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSatisSubActionPerformed
+    private void tblCustInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustInfoMouseClicked
+
+    }//GEN-LAST:event_tblCustInfoMouseClicked
+
+    private void btnModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyActionPerformed
+        if(tblCustInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            int row = tblCustInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            String modifyQuery="update customerinfo set custname=?, custgender=?, memid=? where custid="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setString(1, txtCustNameSide.getText());
+                pst.setString(2, btnGroupGenderSide.getSelection().getActionCommand());
+                pst.setString(3, txtMemSide.getText());
+
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnModifyActionPerformed
+
+    private void tblServInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServInfoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSatisSubActionPerformed
+    }//GEN-LAST:event_tblServInfoMouseClicked
 
+    private void btnServAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServAddActionPerformed
+        try{
+            String ins = "INSERT INTO serviceinfo (servname, hairlength, serbfee) VALUES(?,?,?)";
+            pst = conn.prepareStatement(ins);
+            pst.setString(1, txtServName.getText());
+            pst.setString(2, txtServHair.getText());
+            pst.setDouble(3, Double.parseDouble(txtServFee.getText()));
+
+            pst.executeUpdate();
+            System.out.println("Inserted successfully");
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        } 
+    }//GEN-LAST:event_btnServAddActionPerformed
+
+    private void btnServModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServModifyActionPerformed
+        if(tblServInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblServInfo.getModel();
+            int row = tblServInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            String modifyQuery="UPDATE serviceinfo SET servname=?, hairlength=?, serbfee=? where sercode="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setString(1, txtServName.getText());
+                pst.setString(2, txtServHair.getText());
+                pst.setDouble(3, Double.parseDouble(txtServFee.getText()));
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnServModifyActionPerformed
+
+    private void btnServRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServRemoveActionPerformed
+        if(tblServInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblServInfo.getModel();
+            int row = tblServInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+
+            String delRow = "DELETE FROM serviceinfo WHERE sercode="+id;
+            try{
+                pst = conn.prepareStatement(delRow);
+                pst.execute();
+                model.removeRow(tblServInfo.getSelectedRow());
+                System.out.println("Row deleted successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnServRemoveActionPerformed
+
+    private void btnServRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServRefreshActionPerformed
+        String Code="";
+        String Name="";
+        String Length="";
+        String Fee="";
+        model = (DefaultTableModel) tblServInfo.getModel();
+        model.setRowCount(0);
+        try{
+            pst = conn.prepareStatement("SELECT * FROM serviceinfo");
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                Code = rs.getString("sercode");
+                Name = rs.getString("servname");
+                Length = rs.getString("hairlength");
+                Fee = rs.getString("Serbfee");
+                
+                model.addRow(new Object[]{Code,Name,Length,Fee});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnServRefreshActionPerformed
+
+    private void tblTierInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTierInfoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblTierInfoMouseClicked
+
+    private void btnTierAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTierAddActionPerformed
+        try{
+            String ins = "INSERT INTO tierfee (BeautTF) VALUES(?)";
+            pst = conn.prepareStatement(ins);
+            pst.setDouble(1, Double.parseDouble(txtTierFee.getText()));
+
+            pst.executeUpdate();
+            System.out.println("Inserted successfully");
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnTierAddActionPerformed
+
+    private void btnTierModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTierModifyActionPerformed
+        if(tblTierInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblTierInfo.getModel();
+            int row = tblTierInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            String modifyQuery="UPDATE tierfee SET beautTF=? where beautTier="+id;
+            try{
+                pst = conn.prepareStatement(modifyQuery);
+                pst.setString(1, txtTierFee.getText());
+                pst.executeUpdate();
+                System.out.println("Modified successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnTierModifyActionPerformed
+
+    private void btnTierRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTierRemoveActionPerformed
+        if(tblBeautInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblTierInfo.getModel();
+            int row = tblTierInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+
+            String delRow = "DELETE FROM tierfee WHERE beautTier="+id;
+            try{
+                pst = conn.prepareStatement(delRow);
+                pst.execute();
+                model.removeRow(tblBeautInfo.getSelectedRow());
+                System.out.println("Row deleted successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnTierRemoveActionPerformed
+
+    private void btnTierRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTierRefreshActionPerformed
+        String Tier="";
+        String Fee="";
+        model = (DefaultTableModel) tblTierInfo.getModel();
+        model.setRowCount(0);
+        try{
+            pst = conn.prepareStatement("SELECT * FROM tierfee");
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                Tier = rs.getString("BeautTier");
+                Fee = rs.getString("BeautTF");
+                model.addRow(new Object[]{Tier, Fee});
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnTierRefreshActionPerformed
+
+    private void btnCustRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustRemoveActionPerformed
+        if(tblCustInfo.getSelectedRow()!=-1){
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            int row = tblCustInfo.getSelectedRow();
+            Object id = model.getValueAt(row, 0);
+            
+            String delRow = "DELETE FROM customerinfo WHERE custid="+id;
+            try{
+                pst = conn.prepareStatement(delRow);
+                pst.execute();
+                model.removeRow(tblCustInfo.getSelectedRow());
+                System.out.println("Row deleted successfully");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCustRemoveActionPerformed
+
+   
+    String addName, addGender, addAddress;
+    
+   
     /**
      * @param args the command line arguments
      */
@@ -1263,32 +1678,45 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JButton btnBeautModify;
     private javax.swing.JButton btnBeautRefresh;
     private javax.swing.JButton btnBeautRemove;
+    private javax.swing.JButton btnCustRefresh;
+    private javax.swing.JButton btnCustRemove;
     private javax.swing.JRadioButton btnGenderFemaleSide;
     private javax.swing.JRadioButton btnGenderMaleSide;
     private javax.swing.JRadioButton btnGenderOthersSide;
     private javax.swing.ButtonGroup btnGroupBeautTier;
     private javax.swing.ButtonGroup btnGroupGenderSide;
     private javax.swing.JButton btnModify;
-    private javax.swing.JButton btnRefreshCust;
     private javax.swing.JButton btnRefreshSubtotal;
     private javax.swing.JButton btnRefreshTransactions;
-    private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnRemoveSubtotal;
     private javax.swing.JButton btnRemoveTrans;
+    private javax.swing.JButton btnServAdd;
+    private javax.swing.JButton btnServModify;
+    private javax.swing.JButton btnServRefresh;
+    private javax.swing.JButton btnServRemove;
+    private javax.swing.JButton btnTierAdd;
     private javax.swing.JRadioButton btnTierBeginner;
     private javax.swing.JRadioButton btnTierExpert;
+    private javax.swing.JButton btnTierModify;
     private javax.swing.JRadioButton btnTierNovice;
+    private javax.swing.JButton btnTierRefresh;
+    private javax.swing.JButton btnTierRemove;
     private javax.swing.JButton btnUpdateSub;
     private javax.swing.JButton btnUpdateTrans;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel lblAddressSide;
     private javax.swing.JLabel lblBeautName;
+    private javax.swing.JLabel lblBeautName1;
+    private javax.swing.JLabel lblBeautName2;
     private javax.swing.JLabel lblBeautTier;
+    private javax.swing.JLabel lblBeautTier1;
+    private javax.swing.JLabel lblBeautTier2;
     private javax.swing.JLabel lblCustNameSide;
-    private javax.swing.JLabel lblCustNameSide1;
     private javax.swing.JLabel lblCustNameSide10;
     private javax.swing.JLabel lblCustNameSide2;
     private javax.swing.JLabel lblCustNameSide3;
@@ -1299,24 +1727,30 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel lblCustNameSide9;
     private javax.swing.JLabel lblGenderSide;
     private javax.swing.JPanel pnlBeautInfo;
+    private javax.swing.JPanel pnlBeautInfo1;
     private javax.swing.JPanel pnlMembers;
     private javax.swing.JPanel pnlTransactions;
     private javax.swing.JTabbedPane tabMain;
     private javax.swing.JTable tblBeautInfo;
     private javax.swing.JTable tblCustInfo;
+    private javax.swing.JTable tblServInfo;
     private javax.swing.JTable tblSubInfo;
+    private javax.swing.JTable tblTierInfo;
     private javax.swing.JTable tblTransInfo;
-    private javax.swing.JTextField txtAddressSide;
     private javax.swing.JTextField txtBeautIdSub;
     private javax.swing.JTextField txtBeautName;
     private javax.swing.JTextField txtBranchTrans;
     private javax.swing.JTextField txtCustNameSide;
     private javax.swing.JTextField txtCustTrans;
     private javax.swing.JTextField txtDateTrans;
-    private javax.swing.JTextField txtInvoiceTrans;
+    private javax.swing.JTextField txtMemSide;
     private javax.swing.JTextField txtPayTrans;
     private javax.swing.JTextField txtSatisSub;
     private javax.swing.JTextField txtServCodeSub;
+    private javax.swing.JTextField txtServFee;
+    private javax.swing.JTextField txtServHair;
+    private javax.swing.JTextField txtServName;
+    private javax.swing.JTextField txtTierFee;
     private javax.swing.JTextField txtTimeTrans;
     // End of variables declaration//GEN-END:variables
 }
