@@ -49,6 +49,7 @@ public class adminPanel extends javax.swing.JFrame {
         btnAddSide = new javax.swing.JButton();
         btnCustRefresh = new javax.swing.JButton();
         btnCustRemove = new javax.swing.JButton();
+        chkboxMembers = new javax.swing.JCheckBox();
         pnlTransactions = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSubInfo = new javax.swing.JTable();
@@ -219,6 +220,13 @@ public class adminPanel extends javax.swing.JFrame {
             }
         });
 
+        chkboxMembers.setText("Display Members");
+        chkboxMembers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkboxMembersActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlMembersLayout = new javax.swing.GroupLayout(pnlMembers);
         pnlMembers.setLayout(pnlMembersLayout);
         pnlMembersLayout.setHorizontalGroup(
@@ -233,31 +241,37 @@ public class adminPanel extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCustNameSide)
-                            .addComponent(lblGenderSide))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCustNameSide, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlMembersLayout.createSequentialGroup()
-                                .addComponent(btnGenderMaleSide)
+                                .addGap(28, 28, 28)
+                                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCustNameSide)
+                                    .addComponent(lblGenderSide))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCustNameSide, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlMembersLayout.createSequentialGroup()
+                                        .addComponent(btnGenderMaleSide)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnGenderFemaleSide)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnGenderOthersSide))))
+                            .addGroup(pnlMembersLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenderFemaleSide)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenderOthersSide))))
+                                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblAddressSide)
+                                    .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlMembersLayout.createSequentialGroup()
+                                        .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtMemSide))))
+                        .addGap(0, 76, Short.MAX_VALUE))
                     .addGroup(pnlMembersLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblAddressSide)
-                            .addComponent(btnModify, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlMembersLayout.createSequentialGroup()
-                                .addComponent(btnAddSide, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtMemSide))))
-                .addGap(0, 76, Short.MAX_VALUE))
+                        .addGap(48, 48, 48)
+                        .addComponent(chkboxMembers)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnlMembersLayout.setVerticalGroup(
             pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,6 +300,8 @@ public class adminPanel extends javax.swing.JFrame {
                         .addGroup(pnlMembersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddSide)
                             .addComponent(btnModify))
+                        .addGap(18, 18, 18)
+                        .addComponent(chkboxMembers)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMembersLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
@@ -1275,15 +1291,16 @@ public class adminPanel extends javax.swing.JFrame {
                 "SET BeautID=?, SerCode=?, BeautTF(SELECT BeautTF FROM beauticianinfo AS bi, tierfee AS tf WHERE bi.BeautID=? AND tf.BeautTier = bi.BeautTier)" +
                 "WHERE InvoiceNum=(SELECT InvoiceNum FROM transactioninfo WHERE invoiceNum="+ idTrans +") "  +
                 "AND SerCode=(SELECT SerCode FROM serviceinfo WHERE SerCode=" + idServ + ";";
-                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE subtotal IS NULL";
-                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE subtotal IS NULL AND memID IS NOT NULL";
+                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE invoicenum=" + idTrans + "AND sercode=" + idServ;
+                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE invoicenum="+ idTrans + "AND sercode=" + idServ +
+                        "AND memID IS NOT NULL";
                 try{
                     PreparedStatement pst2 = conn.prepareStatement(ins2);
                     PreparedStatement pst3 = conn.prepareStatement(ins3);
                     pst = conn.prepareStatement(modifyQuery);
                     pst.setObject(1, txtBeautIdSub.getText());
                     pst.setObject(2, txtServCodeSub.getText());
-                    pst.setObject(3^, txtBeautIdSub.getText());
+                    pst.setObject(3, txtBeautIdSub.getText());
 
                     pst.executeUpdate();
                     pst2.executeUpdate();
@@ -1300,8 +1317,9 @@ public class adminPanel extends javax.swing.JFrame {
                 String ins = "UPDATE satisfaction " +
                 "SET satisfaction=?" +
                 "WHERE InvoiceNum =" + idTrans + " AND SerCode=" + idServ + ";";
-                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE subtotal IS NULL";
-                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE subtotal IS NULL AND memID IS NOT NULL";
+                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE invoicenum=" + idTrans + "AND sercode=" + idServ;
+                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE invoicenum="+ idTrans + "AND sercode=" + idServ +
+                        "AND memID IS NOT NULL";
                 try{
                     PreparedStatement pst2, pst3, pst4;
                     pst = conn.prepareStatement(modifyQuery);
@@ -1631,6 +1649,56 @@ public class adminPanel extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnCustRemoveActionPerformed
 
+    private void chkboxMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkboxMembersActionPerformed
+        if(chkboxMembers.isSelected()){
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            String query = "SELECT * FROM customerinfo WHERE memid IS NOT NULL";
+            String ID="";
+            String Name="";
+            String Address="";
+            String MemID="";
+            String Gender="";
+            model.setRowCount(0);
+            try{
+                pst = conn.prepareStatement(query);
+                ResultSet rs = pst.executeQuery();
+
+                while(rs.next()){
+                    ID = rs.getString("custid");
+                    Name = rs.getString("custname");
+                    MemID = rs.getString("memid");
+                    Gender = rs.getString("custgender");
+                    model.addRow(new Object[]{ID,Name,Gender,MemID});
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            model = (DefaultTableModel) tblCustInfo.getModel();
+            String query = "SELECT * FROM customerinfo";
+            String ID="";
+            String Name="";
+            String Address="";
+            String MemID="";
+            String Gender="";
+            model.setRowCount(0);
+            try{
+                pst = conn.prepareStatement(query);
+                ResultSet rs = pst.executeQuery();
+
+                while(rs.next()){
+                    ID = rs.getString("custid");
+                    Name = rs.getString("custname");
+                    MemID = rs.getString("memid");
+                    Gender = rs.getString("custgender");
+                    model.addRow(new Object[]{ID,Name,Gender,MemID});
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_chkboxMembersActionPerformed
+
    
     String addName, addGender, addAddress;
     
@@ -1703,6 +1771,7 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JButton btnTierRemove;
     private javax.swing.JButton btnUpdateSub;
     private javax.swing.JButton btnUpdateTrans;
+    private javax.swing.JCheckBox chkboxMembers;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
