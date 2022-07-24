@@ -1264,8 +1264,8 @@ public class adminPanel extends javax.swing.JFrame {
                 model2 = (DefaultTableModel) tblSubInfo.getModel();
                 int rowSub = tblSubInfo.getSelectedRow();
                 Object idSub = model2.getValueAt(rowSub, 2);
-                String modifyQuery= "DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
-                String modifyQuery2= "DELETE FROM satisfaction WHERE InvoiceNum="+ idTrans +"AND SerCode="+ idSub;
+                String modifyQuery= "DELETE FROM subtotalcomputation WHERE InvoiceNum="+ idTrans +" AND SerCode="+ idSub + ";";
+                String modifyQuery2= "DELETE FROM satisfaction WHERE InvoiceNum="+ idTrans +" AND SerCode="+ idSub + ";";
                 Statement st = conn.createStatement();
                 st.addBatch(modifyQuery2);
                 st.addBatch(modifyQuery);
@@ -1317,8 +1317,8 @@ public class adminPanel extends javax.swing.JFrame {
                 String ins = "UPDATE satisfaction " +
                 "SET satisfaction=?" +
                 "WHERE InvoiceNum =" + idTrans + " AND SerCode=" + idServ + ";";
-                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE invoicenum=" + idTrans + "AND sercode=" + idServ;
-                String ins3 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE invoicenum="+ idTrans + "AND sercode=" + idServ +
+                String ins2 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE invoicenum=" + idTrans + "AND sercode=" + idServ + "AND memID is NULL;";
+                String ins3 = "UPDATE subtotalcomputation SET subtotal=((BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05)) WHERE invoicenum="+ idTrans + "AND sercode=" + idServ +
                         "AND memID IS NOT NULL";
                 try{
                     PreparedStatement pst2, pst3, pst4;
@@ -1367,7 +1367,7 @@ public class adminPanel extends javax.swing.JFrame {
             "?)";
             
             String ins3 = "UPDATE subtotalcomputation SET subtotal=BeautTF+SerBFee WHERE subtotal IS NULL";
-            String ins4 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE subtotal IS NULL AND memID IS NOT NULL";
+            String ins4 = "UPDATE subtotalcomputation SET subtotal=(BeautTF+SerBFee)-((BeautTF+SerBFee)*0.05) WHERE memID IS NOT NULL";
             PreparedStatement pst1, pst2, pst3, pst4;
             pst1 = conn.prepareStatement(ins);
             pst1.setString(1, txtBeautIdSub.getText());
